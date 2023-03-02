@@ -4,6 +4,9 @@
   <script src="{{ asset('fronttheme/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
   <script src="{{ asset('fronttheme/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
   <script src="{{ asset('fronttheme/assets/js/plugins/chartjs.min.js') }}"></script>
+  <script src="{{ asset('datatable/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
+  <script src="{{ asset('datatable/datatables.min.js') }}"></script>
+  <script src="{{ asset('datatable/DataTables-1.13.2/js/dataTables.bootstrap5.min.js') }}"></script>
   <script>
       var ctx = document.getElementById("chart-bars").getContext("2d");
 

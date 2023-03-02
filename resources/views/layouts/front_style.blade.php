@@ -10,3 +10,5 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <!-- CSS Files -->
 <link id="pagestyle" href="{{ asset('fronttheme/assets/css/material-dashboard.min.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('datatable/datatables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('datatable/DataTables-1.13.2/css/dataTables.bootstrap5.min.css') }}">
