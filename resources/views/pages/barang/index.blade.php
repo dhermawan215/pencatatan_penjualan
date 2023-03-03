@@ -65,7 +65,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="p-1">
+                        <form action="javascript:;" id="formTambahBarang" method="post" class="p-1">
+                            @csrf
                             <div class="input-group input-group-outline mb-3">
                                 <label class="form-label">Kode Barang</label>
                                 <input type="text" name="kode_barang" id="kodeBarang" class="form-control">
@@ -95,3 +96,7 @@
         </div>
     </div>
 @endsection
+
+@push('front_scripts')
+    <script src="{{ asset('data_barang/data-barang.js') }}"></script>p
+@endpush

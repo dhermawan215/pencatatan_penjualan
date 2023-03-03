@@ -7,6 +7,10 @@
   <script src="{{ asset('datatable/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
   <script src="{{ asset('datatable/datatables.min.js') }}"></script>
   <script src="{{ asset('datatable/DataTables-1.13.2/js/dataTables.bootstrap5.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+      const HomeUrl = "{{ url('') }}";
+  </script>
   <script>
       var ctx = document.getElementById("chart-bars").getContext("2d");
 

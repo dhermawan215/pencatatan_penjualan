@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BarangController extends Controller
 {
@@ -23,7 +25,6 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -34,7 +35,27 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data_request = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'kode_barang' => 'required|string|max:255|unique:barang',
+            'nama_barang' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'didaftarkan_oleh' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+        unset($data_request['_token']);
+
+        $barang = Barang::create($data_request);
+
+        if ($barang->exists) {
+            return \response()->json($barang->exists, 200);
+        } else {
+            return \response()->json("error", 500);
+        }
     }
 
     /**
