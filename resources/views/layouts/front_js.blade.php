@@ -6,7 +6,9 @@
   <script src="{{ asset('fronttheme/assets/js/plugins/chartjs.min.js') }}"></script>
   <script src="{{ asset('datatable/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
   <script src="{{ asset('datatable/datatables.min.js') }}"></script>
-  <script src="{{ asset('datatable/DataTables-1.13.2/js/dataTables.bootstrap5.min.js') }}"></script>
+  <!-- <script src="{{ asset('datatable/DataTables-1.13.2/js/dataTables.bootstrap5.min.js') }}"></script> -->
+  <script src="{{ asset('datatable/Responsive-2.4.0/js/dataTables.responsive.min.js') }}"></script>
+  <!-- <script src="{{ asset('datatable/Responsive-2.4.0/js/responsive.bootstrap5.min.js') }}"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script>
       const HomeUrl = "{{ url('') }}";

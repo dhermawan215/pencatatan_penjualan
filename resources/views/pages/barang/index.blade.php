@@ -12,7 +12,19 @@
                     <i class="fa fa-plus" aria-hidden="true"></i><span>Tambah Barang</span>
                 </button>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-2">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning btn-sm">
+                    <i class="fa fa-plus" aria-hidden="true"></i><span>Edit Barang</span>
+                </button>
+            </div>
+            <div class="col-lg-2">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success btn-sm">
+                    <i class="fa fa-plus" aria-hidden="true"></i><span>Hapus Barang</span>
+                </button>
+            </div>
+            <div class="col-lg-6">
 
             </div>
         </div>
@@ -32,19 +44,29 @@
                                             Nama</th>
                                         <th class="text-center text-uppercase text-secondary font-weight-bolder ">
                                             Harga</th>
-                                        <th class="text-center text-uppercase text-secondary font-weight-bolder ">
-                                            Aksi</th>
+                                        {{-- <th class="text-center text-uppercase text-secondary font-weight-bolder ">
+                                            Aksi</th> --}}
                                     </tr>
                                 </thead>
+                                <?php $data_index = 0; ?>
                                 <tfoot>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td><input type="text" class="form-control " placeholder="cari no barang"
-                                                id="tfoot-nobarang-search"></td>
-                                        <td><input type="text" class="form-control " placeholder="cari nama barang"
-                                                id="tfoot-namabarang-search"></td>
-                                        <td><input type="text" class="form-control " placeholder="cari harga"
+                                        <td>
+                                            <input type="hidden" data-index="<?php echo $data_index;
+                                            $data_index++;
+                                            ?>">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" data-index="<?php echo $data_index;
+                                            $data_index++;
+                                            ?>">
+                                        </td>
+
+                                        <td><input type="text" class="form-control tfoot-seacrh"
+                                                placeholder="cari no barang" id="tfoot-nobarang-search"></td>
+                                        <td><input type="text" class="form-control tfoot-seacrh"
+                                                placeholder="cari nama barang" id="tfoot-namabarang-search"></td>
+                                        <td><input type="text" class="form-control tfoot-seacrh" placeholder="cari harga"
                                                 id="tfoot-harga-search"></td>
                                     </tr>
                                 </tfoot>
@@ -98,5 +120,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('data_barang/data-barang.js') }}"></script>p
+    <script src="{{ asset('data_barang/data-barang.js') }}"></script>
 @endpush

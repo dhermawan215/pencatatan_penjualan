@@ -10,5 +10,7 @@
 <!-- CSS Files -->
 <link id="pagestyle" href="{{ asset('fronttheme/assets/css/material-dashboard.min.css') }}" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset('datatable/datatables.min.css') }}">
-<link rel="stylesheet" href="{{ asset('datatable/DataTables-1.13.2/css/dataTables.bootstrap5.min.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('datatable/DataTables-1.13.2/css/dataTables.bootstrap5.min.css') }}"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+<link rel="stylesheet" href="{{ asset('datatable/Responsive-2.4.0/css/responsive.bootstrap.min.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('datatable/Responsive-2.4.0/css/responsive.bootstrap5.min.css') }}"> -->

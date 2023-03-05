@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class BarangController extends Controller
@@ -101,5 +102,85 @@ class BarangController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDataBarang()
+    {
+        // \dd(\request()->all());
+        $columns = [
+            'id',
+            'id',
+            'kode_barang',
+            'nama_barang',
+            'harga'
+        ];
+
+        $offset = \request()->input("start") ? \request()->input("start") : 0;
+        $limit = \request()->input("length") ? \request()->input("length") : 5;
+        $global_search = \request()->input("search.value");
+        $kode_barang_search = \request()->input("columns.2.search.value");
+        $nama_barang_search = \request()->input("columns.3.search.value");
+        $harga_barang_search = \request()->input("columns.4.search.value");
+        $orderBy = $columns[\request()->input("order.0.column")];
+
+
+        $queryBarang = Barang::select('*');
+        // \dd($queryBarang);
+        //global search
+        $where = [];
+        if ($kode_barang_search) {
+            $where[] = ['kode_barang', '=', $kode_barang_search];
+        }
+
+        if ($nama_barang_search) {
+            $where[] = ['nama_barang', '=', $nama_barang_search];
+            // $queryBarang = Barang::Where('nama_barang', $nama_barang_search)->get();
+            // \dd($queryBarang);
+        }
+        if ($harga_barang_search) {
+            $where[] = ['harga', '=', $harga_barang_search];
+        }
+        // $queryBarang = DB::table('barang')->where($where);
+        // \dd($nama_barang_search);
+        $cek = $queryBarang->where($where);
+
+        if ($global_search) {
+            // $queryBarang->whereRaw("(lokasi LIKE '%{$global_search}%' OR name LIKE '%{$$global_search}%')");
+            $queryBarang->where(function ($query) {
+                $query->whereRaw('LOWER(kode_barang) like ?', ['%' . \strtolower(\request()->input("search.value")) . '%'])
+                    ->orWhereRaw('LOWER(nama_barang) like ?', ['%' . \strtolower(\request()->input("search.value")) . '%']);
+            });
+        }
+
+        $recordsFiltered = $queryBarang->count();
+        $res_data = $queryBarang
+            ->skip($offset)
+            ->take($limit)
+            ->orderBy($orderBy, \request()->input("order.0.dir"))
+            ->get();
+        $recordsTotal = $res_data->count();
+
+        $data = [];
+        $i = $offset + 1;
+
+        foreach ($res_data as $key => $value) {
+            $data['cbox'] = '<input type="checkbox" class="data-barang-cbox" value="' . $value->id . '">';
+            $data['rnum'] = $i;
+            $data['kode_barang'] = $value->kode_barang;
+            $data['nama_barang'] = $value->nama_barang;
+            $data['harga'] = $value->harga;
+            $data['aksi'] = '<div class="d-flex"><a href="' . route('barang.edit', \base64_encode($value->id)) . '" class="mr-2 ml-2" title="Edit"><i class="fas fa-edit"></i></a><a href="' . route('barang.edit', \base64_encode($value->id)) . '" class="text-success" title="Detail"><i class="fas fa-eye"></i></a></div>';
+
+            $arr[] = $data;
+            $i++;
+        }
+        return \response()->json([
+            'draw' => \request()->input('draw'),
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $arr,
+            'cwl' => $cek,
+            'request' => \request()->all(),
+        ]);
     }
 }

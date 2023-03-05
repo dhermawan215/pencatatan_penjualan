@@ -35,5 +35,6 @@ Route::prefix('/account')->middleware(['auth'])
 
 Route::prefix('admin')->group(function () {
     Route::resource('barang', BarangController::class);
+    Route::post('/list_barang', [BarangController::class, 'getDataBarang']);
 });
 require __DIR__ . '/auth.php';
