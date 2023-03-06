@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // console.info(csrf_token);
-    handleDataTables();
     handleFormModalSubmit();
+    handleDataTables();
     // customFilter();
 });
 
@@ -46,6 +46,7 @@ function handleDataTables() {
         ],
         lengthChange: true,
         language: {
+            emptyTable: "My Custom Message On Empty Table",
             info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
             infoEmpty: "Menampilkan 0 - 0 dari 0 data",
             // infoFiltered: "",
@@ -53,7 +54,7 @@ function handleDataTables() {
             loadingRecords: "Loading...",
             processing: "Processing...",
         },
-        // filter: true,
+        bFilter: true,
         info: true,
         processing: true,
         serverSide: true,
@@ -77,11 +78,21 @@ function handleDataTables() {
             // { data: "aksi", orderable: false },
         ],
     });
-    $(".tfoot-seacrh").on("change", function () {
+    $("#tfootNoBarSr").on("change", function () {
         var data_index = $(this).attr("data-index");
-        table.columns(data_index).search($(this).val()).draw();
+        table.columns(2).search($(this).val()).draw();
+        customFilter();
     });
-    customFilter();
+    $("#tfootnNaBarSr").on("change", function () {
+        var data_index = $(this).attr("data-index");
+        table.columns(3).search($(this).val()).draw();
+        customFilter();
+    });
+    $("#tfootHargaSr").on("change", function () {
+        var data_index = $(this).attr("data-index");
+        table.columns(4).search($(this).val()).draw();
+        customFilter();
+    });
 }
 
 function customFilter() {

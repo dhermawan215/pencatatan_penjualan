@@ -67,7 +67,7 @@ class BarangController extends Controller
      */
     public function show($id)
     {
-        //
+        return base64_decode($id);
     }
 
     /**
@@ -78,7 +78,7 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        return base64_decode($id);
     }
 
     /**
@@ -127,22 +127,23 @@ class BarangController extends Controller
         $queryBarang = Barang::select('*');
         // \dd($queryBarang);
         //global search
-        $where = [];
+
         if ($kode_barang_search) {
-            $where[] = ['kode_barang', '=', $kode_barang_search];
+            $queryBarang->where('kode_barang', $kode_barang_search);
         }
 
         if ($nama_barang_search) {
-            $where[] = ['nama_barang', '=', $nama_barang_search];
+            $queryBarang->where('nama_barang', 'like', '%' . $nama_barang_search . '%');
             // $queryBarang = Barang::Where('nama_barang', $nama_barang_search)->get();
             // \dd($queryBarang);
         }
         if ($harga_barang_search) {
-            $where[] = ['harga', '=', $harga_barang_search];
+            $queryBarang->where('harga', $harga_barang_search);
         }
+
         // $queryBarang = DB::table('barang')->where($where);
         // \dd($nama_barang_search);
-        $cek = $queryBarang->where($where);
+        // $queryBarang->where($where);
 
         if ($global_search) {
             // $queryBarang->whereRaw("(lokasi LIKE '%{$global_search}%' OR name LIKE '%{$$global_search}%')");
@@ -163,23 +164,34 @@ class BarangController extends Controller
         $data = [];
         $i = $offset + 1;
 
-        foreach ($res_data as $key => $value) {
-            $data['cbox'] = '<input type="checkbox" class="data-barang-cbox" value="' . $value->id . '">';
-            $data['rnum'] = $i;
-            $data['kode_barang'] = $value->kode_barang;
-            $data['nama_barang'] = $value->nama_barang;
-            $data['harga'] = $value->harga;
-            $data['aksi'] = '<div class="d-flex"><a href="' . route('barang.edit', \base64_encode($value->id)) . '" class="mr-2 ml-2" title="Edit"><i class="fas fa-edit"></i></a><a href="' . route('barang.edit', \base64_encode($value->id)) . '" class="text-success" title="Detail"><i class="fas fa-eye"></i></a></div>';
+        if ($res_data->isEmpty()) {
+            $data['cbox'] = '';
+            $data['rnum'] = '';
+            $data['kode_barang'] = "Data Kosong";
+            $data['nama_barang'] = "Data Kosong";
+            $data['harga'] = "Data Kosong";
 
             $arr[] = $data;
-            $i++;
+        } else {
+            foreach ($res_data as $key => $value) {
+                $data['cbox'] = '<div class="d-flex"><input type="checkbox" class="data-barang-cbox ms-2" value="' . $value->id . '"><a href="' . route('barang.edit', base64_encode($value->id)) . '" class="text-primary ms-2" title="Edit Data"><i class="fas fa-edit"></i></a ><a href="' . route('barang.show', base64_encode($value->id)) . '" class="text-success ms-1" title="Detail Data"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>';
+                $data['rnum'] = $i;
+                // $data['aksi'] = 'p';
+                $data['kode_barang'] = $value->kode_barang;
+                $data['nama_barang'] = $value->nama_barang;
+                $data['harga'] = $value->harga;
+
+
+                $arr[] = $data;
+                $i++;
+            }
         }
         return \response()->json([
             'draw' => \request()->input('draw'),
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
             'data' => $arr,
-            'cwl' => $cek,
+            'filter' => $harga_barang_search,
             'request' => \request()->all(),
         ]);
     }

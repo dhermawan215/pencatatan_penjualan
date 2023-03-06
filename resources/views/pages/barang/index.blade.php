@@ -12,12 +12,12 @@
                     <i class="fa fa-plus" aria-hidden="true"></i><span>Tambah Barang</span>
                 </button>
             </div>
-            <div class="col-lg-2">
+            {{-- <div class="col-lg-2">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-warning btn-sm">
                     <i class="fa fa-plus" aria-hidden="true"></i><span>Edit Barang</span>
                 </button>
-            </div>
+            </div> --}}
             <div class="col-lg-2">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-success btn-sm">
@@ -63,11 +63,11 @@
                                         </td>
 
                                         <td><input type="text" class="form-control tfoot-seacrh"
-                                                placeholder="cari no barang" id="tfoot-nobarang-search"></td>
+                                                placeholder="cari no barang" id="tfootNoBarSr"></td>
                                         <td><input type="text" class="form-control tfoot-seacrh"
-                                                placeholder="cari nama barang" id="tfoot-namabarang-search"></td>
+                                                placeholder="cari nama barang" id="tfootnNaBarSr"></td>
                                         <td><input type="text" class="form-control tfoot-seacrh" placeholder="cari harga"
-                                                id="tfoot-harga-search"></td>
+                                                id="tfootHargaSr"></td>
                                     </tr>
                                 </tfoot>
 
