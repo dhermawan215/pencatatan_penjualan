@@ -3,6 +3,7 @@ $(document).ready(function () {
     handleFormModalSubmit();
     handleDataTables();
     // customFilter();
+    handleDeleteData();
 });
 
 function handleFormModalSubmit() {
@@ -35,6 +36,7 @@ function handleFormModalSubmit() {
 }
 
 function handleDataTables() {
+    let contentSelected = [];
     const csrf_token = $('meta[name="_token"]').attr("content");
     const table = $("#tableBarang").DataTable({
         responsive: true,
@@ -97,4 +99,26 @@ function handleDataTables() {
 
 function customFilter() {
     table.ajax.reload(null, false);
+}
+
+function handleDeleteData() {
+    const csrf_token = $('meta[name="_token"]').attr("content");
+    var allVals = [];
+    $(".cboxs:checked").each(function () {
+        allVals.push($(this).val());
+    });
+
+    $("#btnDelete").on("click", function () {
+        // alert("sss");
+        $.ajax({
+            url: HomeUrl + "/admin/barang/delete",
+            type: "POST",
+            data: {
+                _token: csrf_token,
+                ids: allVals,
+            },
+            success: function () {},
+            error: function () {},
+        });
+    });
 }
