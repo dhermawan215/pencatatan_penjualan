@@ -78,7 +78,13 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-        return base64_decode($id);
+        $ids = base64_decode($id);
+
+        $barang = Barang::findOrFail($ids);
+
+        return \view("pages.barang.edit", [
+            'data' => $barang
+        ]);
     }
 
     /**
@@ -178,7 +184,7 @@ class BarangController extends Controller
             $arr[] = $data;
         } else {
             foreach ($res_data as $key => $value) {
-                $data['cbox'] = '<div class="d-flex"><input type="checkbox" class="cboxs" value="' . $value->id . '"><a href="' . route('barang.edit', base64_encode($value->id)) . '" class="text-primary me-2 ms-2" title="Edit Data"><i class="fas fa-edit"></i></a ><a href="' . route('barang.show', base64_encode($value->id)) . '" class="text-success ms-1" title="Detail Data"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>';
+                $data['cbox'] = '<div class="d-flex"><button type="button" class="btndel btn btn-sm btn-danger" id="btndeletes" data-id="' . $value->id . '">Delete</button><a href="' . route('barang.edit', base64_encode($value->id)) . '" class="text-primary me-2 ms-2" title="Edit Data"><i class="fas fa-edit"></i></a ><a href="' . route('barang.show', base64_encode($value->id)) . '" class="text-success ms-1" title="Detail Data"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>';
                 $data['rnum'] = $i;
                 // $data['aksi'] = 'p';
                 $data['kode_barang'] = $value->kode_barang;

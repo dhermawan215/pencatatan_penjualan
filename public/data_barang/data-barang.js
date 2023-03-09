@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    // console.info(csrf_token);
-    handleFormModalSubmit();
     handleDataTables();
+    handleFormModalSubmit();
     // customFilter();
-    handleDeleteData();
+    // handleDeleteData();
+    handleDelete();
 });
 
 function handleFormModalSubmit() {
@@ -101,24 +101,9 @@ function customFilter() {
     table.ajax.reload(null, false);
 }
 
-function handleDeleteData() {
-    const csrf_token = $('meta[name="_token"]').attr("content");
-    var allVals = [];
-    $(".cboxs:checked").each(function () {
-        allVals.push($(this).val());
-    });
-
-    $("#btnDelete").on("click", function () {
-        // alert("sss");
-        $.ajax({
-            url: HomeUrl + "/admin/barang/delete",
-            type: "POST",
-            data: {
-                _token: csrf_token,
-                ids: allVals,
-            },
-            success: function () {},
-            error: function () {},
-        });
+function handleDelete() {
+    $(document).on("click", "#btndeletes", function () {
+        var id = $(this).data("id");
+        alert(id);
     });
 }

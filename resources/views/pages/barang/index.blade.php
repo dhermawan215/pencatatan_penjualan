@@ -36,7 +36,7 @@
                             <table id="tableBarang" class="table table-hover table-striped align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" name="" id="master"></th>
+                                        <th>Action</th>
                                         <th>No</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder ">
                                             No Barang</th>
