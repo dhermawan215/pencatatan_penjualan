@@ -20,7 +20,7 @@
             </div> --}}
             <div class="col-lg-2">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success btn-sm">
+                <button type="button" id="btnDelete" class="btn btn-success btn-sm">
                     <i class="fa fa-plus" aria-hidden="true"></i><span>Hapus Barang</span>
                 </button>
             </div>
@@ -36,7 +36,7 @@
                             <table id="tableBarang" class="table table-hover table-striped align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th><input type="checkbox" name="" id="master"></th>
                                         <th>No</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder ">
                                             No Barang</th>
