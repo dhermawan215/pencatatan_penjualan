@@ -49,7 +49,7 @@ function handleDataTables() {
             emptyTable: "My Custom Message On Empty Table",
             info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
             infoEmpty: "Menampilkan 0 - 0 dari 0 data",
-            // infoFiltered: "",
+            infoFiltered: "",
             zeroRecords: "Data tidak di temukan",
             loadingRecords: "Loading...",
             processing: "Processing...",
