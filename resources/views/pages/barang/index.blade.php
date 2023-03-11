@@ -18,12 +18,7 @@
                     <i class="fa fa-plus" aria-hidden="true"></i><span>Edit Barang</span>
                 </button>
             </div> --}}
-            <div class="col-lg-2">
-                <!-- Button trigger modal -->
-                <button type="button" id="btnDelete" class="btn btn-success btn-sm">
-                    <i class="fa fa-plus" aria-hidden="true"></i><span>Hapus Barang</span>
-                </button>
-            </div>
+
             <div class="col-lg-6">
 
             </div>

@@ -17,9 +17,10 @@
             <div class="col-lg-12 col-mb-12 col-sm-12 m-1 p-2">
                 <div class="card">
                     <div class="card-body">
-                        <form action="javascript:;" id="formTambahBarang" method="post" class="p-1">
+                        <form action="javascript:;" id="formEditBarang" method="post" class="p-1">
                             @csrf
-                            <input type="hidden" name="id" value="{{ $data->id }}">
+                            @method('PATCH')
+                            <input type="hidden" name="id" id="idValue" value="{{ $data->id }}">
                             <div class="input-group input-group-outline mb-3">
                                 <label class="form-label">Kode Barang</label>
                                 <input type="text" name="kode_barang" id="kodeBarang" class="form-control"
@@ -41,7 +42,8 @@
                                     value="{{ $data->didaftarkan_oleh }}">
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <a href="{{ route('barang.index') }}" class="btn btn-outline-success ms-1">Kembali</a>
                         </form>
                     </div>
                 </div>

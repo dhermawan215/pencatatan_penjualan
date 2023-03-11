@@ -4,6 +4,7 @@ $(document).ready(function () {
     // customFilter();
     // handleDeleteData();
     handleDelete();
+    handleEdit();
 });
 
 function handleFormModalSubmit() {
@@ -62,7 +63,7 @@ function handleDataTables() {
         serverSide: true,
         order: [[1, "asc"]],
         ajax: {
-            url: HomeUrl + "/admin/list_barang",
+            url: HomeUrl + "/admin/barang/list_barang",
             type: "POST",
             data: {
                 _token: csrf_token,
@@ -102,8 +103,76 @@ function customFilter() {
 }
 
 function handleDelete() {
+    const csrf_token = $('meta[name="_token"]').attr("content");
     $(document).on("click", "#btndeletes", function () {
-        var id = $(this).data("id");
-        alert(id);
+        let id = $(this).data("id");
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "DELETE",
+                    url: HomeUrl + "/admin/barang/" + id,
+                    data: {
+                        _token: csrf_token,
+                        // ids: id,
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            "Deleted!",
+                            "Your file has been deleted.",
+                            "success"
+                        );
+                        $("#tableBarang").DataTable().ajax.reload();
+                    },
+                    error: function (response) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Internal Server Error",
+                        });
+                    },
+                });
+                //
+
+                //
+            }
+        });
+    });
+}
+
+function handleEdit() {
+    $("#formEditBarang").submit(function (e) {
+        e.preventDefault();
+        const form = $(this);
+        const formData = new FormData(form[0]);
+
+        let id = $("#idValue").val();
+        // console.info(formData);
+
+        $.ajax({
+            type: "POST",
+            url: HomeUrl + "/admin/barang/" + id,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                toastr.success("Data Berhasil Diperbaharui", "Success");
+                setTimeout(() => {
+                    window.location.href = HomeUrl + "/admin/barang";
+                }, 6000);
+            },
+            error: function (response) {
+                $.each(response.responseJSON, function (key, value) {
+                    toastr.error(value);
+                });
+            },
+        });
     });
 }
