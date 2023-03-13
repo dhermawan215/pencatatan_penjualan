@@ -96,15 +96,24 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data_request = $request->all();
-        $barang = Barang::findOrFail($id);
 
+        $data_request = request()->all();
+        // $ids = $data_request['id'];
+
+        $barang = Barang::find($id);
+        // dd($data_request['nama_barang']);
         if ($barang->kode_barang != $request->kode_barang) {
             $validator = Validator::make($request->all(), [
+                'nama_barang' => 'required|string|max:255',
+                'harga' => 'required|numeric',
+                'didaftarkan_oleh' => 'required',
                 'kode_barang' => 'required|string|max:255|unique:barang',
             ]);
-            return \response()->json($validator->errors()->all(), 403);
+            if ($validator->fails()) {
+                return \response()->json($validator->errors()->all(), 403);
+            }
         }
+
 
         $validator = Validator::make($request->all(), [
             'nama_barang' => 'required|string|max:255',
@@ -117,11 +126,20 @@ class BarangController extends Controller
         }
 
         unset($data_request['_token']);
+        unset($data_request['_method']);
 
-        $barang->update($data_request);
-        return \response()->json("success", 200);
+        $update = $barang->update([
+            "kode_barang" => $data_request['kode_barang'],
+            "nama_barang" => $data_request['nama_barang'],
+            "harga" => $data_request['harga'],
+            "didaftarkan_oleh" => $data_request['didaftarkan_oleh']
+        ]);
+        if ($update) {
+            return \response()->json("success", 200);
+        } else {
+            return \response()->json("gagal", 500);
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      *
