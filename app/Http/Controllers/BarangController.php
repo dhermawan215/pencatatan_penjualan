@@ -96,7 +96,30 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data_request = $request->all();
+        $barang = Barang::findOrFail($id);
+
+        if ($barang->kode_barang != $request->kode_barang) {
+            $validator = Validator::make($request->all(), [
+                'kode_barang' => 'required|string|max:255|unique:barang',
+            ]);
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'nama_barang' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'didaftarkan_oleh' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        unset($data_request['_token']);
+
+        $barang->update($data_request);
+        return \response()->json("success", 200);
     }
 
     /**
@@ -107,11 +130,11 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-    }
+        $barang = Barang::findOrFail($id);
 
-    public function delete()
-    {
-        dd(request()->all());
+        $barang->delete();
+
+        return \response()->json("success", 200);
     }
 
     public function getDataBarang()
@@ -184,7 +207,7 @@ class BarangController extends Controller
             $arr[] = $data;
         } else {
             foreach ($res_data as $key => $value) {
-                $data['cbox'] = '<div class="d-flex"><button type="button" class="btndel btn btn-sm btn-danger" id="btndeletes" data-id="' . $value->id . '">Delete</button><a href="' . route('barang.edit', base64_encode($value->id)) . '" class="text-primary me-2 ms-2" title="Edit Data"><i class="fas fa-edit"></i></a ><a href="' . route('barang.show', base64_encode($value->id)) . '" class="text-success ms-1" title="Detail Data"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>';
+                $data['cbox'] = '<div class="d-flex"><button type="button" class="btndel btn btn-sm btn-danger" id="btndeletes" data-id="' . $value->id . '">Delete</button><a href="' . route('barang.edit', base64_encode($value->id)) . '" class="text-primary me-2 ms-2" title="Edit Data"><i class="fas fa-edit"></i></a ></div>';
                 $data['rnum'] = $i;
                 // $data['aksi'] = 'p';
                 $data['kode_barang'] = $value->kode_barang;
