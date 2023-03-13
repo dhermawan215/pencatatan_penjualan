@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StokAwalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +37,6 @@ Route::prefix('/account')->middleware(['auth'])
 Route::prefix('admin')->group(function () {
     Route::resource('barang', BarangController::class);
     Route::post('/barang/list_barang', [BarangController::class, 'getDataBarang']);
+    Route::resource('/stok', StokAwalController::class);
 });
 require __DIR__ . '/auth.php';
