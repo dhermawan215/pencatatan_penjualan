@@ -6,11 +6,8 @@
 @section('content')
     <div class="container-fluid py-4">
         <div class="row">
-
             <div class="col-lg-4">
-
                 <h5 class="text-danger fw-bold">Tambah Stok Barang</h5>
-
             </div>
         </div>
         <div class="row">
@@ -22,12 +19,16 @@
                             <label class="form-label">Barang</label>
                             <div class="input-group input-group-outline mb-3">
                                 <select name="barang_id" id="idBarang" class="form-control">
-                                    <option value="">Pilih Barang</option>
+                                    <option>Pilih Barang</option>
+                                    @foreach ($barang as $data)
+                                        <option value="{{ $data->id }}">
+                                            {{ $data->kode_barang }} | {{ $data->nama_barang }} </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="input-group input-group-outline mb-3">
                                 <label class="form-label">Qty</label>
-                                <input type="number" name="qty" id="qty" class="form-control">
+                                <input type="number" name="qty_stok" id="qty" class="form-control">
                             </div>
                             <div class="input-group input-group-outline mb-3">
                                 <label class="form-label">Tgl Input</label>

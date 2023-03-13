@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
+use App\Models\StokAwal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StokAwalController extends Controller
 {
@@ -23,7 +26,10 @@ class StokAwalController extends Controller
      */
     public function create()
     {
-        return view('pages.stok.create');
+        $barang = Barang::all();
+        return view('pages.stok.create', [
+            'barang' => $barang
+        ]);
     }
 
     /**
@@ -34,7 +40,27 @@ class StokAwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data_request = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'barang_id' => 'required',
+            'qty_stok' => 'required|numeric',
+            'tgl_input' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        unset($data_request['_token']);
+
+        $save = StokAwal::create($data_request);
+
+        if ($save->exists) {
+            return \response()->json($save->exists, 200);
+        } else {
+            return \response()->json("error", 500);
+        }
     }
 
     /**
