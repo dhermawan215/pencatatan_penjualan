@@ -30,7 +30,7 @@
                             <table id="tableStokBarang" class="table table-hover table-striped align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Action</th>
+                                        <th>Aksi</th>
                                         <th>No</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder ">
                                             Barang</th>
@@ -38,8 +38,6 @@
                                             Qty</th>
                                         <th class="text-center text-uppercase text-secondary font-weight-bolder ">
                                             Tgl</th>
-                                        {{-- <th class="text-center text-uppercase text-secondary font-weight-bolder ">
-                                            Aksi</th> --}}
                                     </tr>
                                 </thead>
                                 <?php $data_index = 0; ?>
@@ -55,17 +53,20 @@
                                             $data_index++;
                                             ?>">
                                         </td>
-
                                         <td><input type="text" class="form-control tfoot-seacrh"
-                                                placeholder="cari no barang" id="tfootBarang"></td>
+                                                placeholder="cari barang" id="tfootBarang" data-index="<?php echo $data_index;
+                                                $data_index++; ?>">
+                                        </td>
                                         <td><input type="text" class="form-control tfoot-seacrh"
-                                                placeholder="cari nama barang" id="tfootnQty"></td>
-                                        <td><input type="text" class="form-control tfoot-seacrh" placeholder="cari harga"
-                                                id="tfootTgl"></td>
-
+                                                placeholder="cari qty stok" id="tfootnQty" data-index="<?php echo $data_index;
+                                                $data_index++; ?>">
+                                        </td>
+                                        <td><input type="text" class="form-control tfoot-seacrh"
+                                                placeholder="cari tanggal" id="tfootTgl" data-index="<?php echo $data_index;
+                                                $data_index++; ?>">
+                                        </td>
                                     </tr>
                                 </tfoot>
-
                             </table>
                         </div>
                     </div>

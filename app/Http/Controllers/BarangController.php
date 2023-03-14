@@ -242,8 +242,8 @@ class BarangController extends Controller
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
             'data' => $arr,
-            'filter' => $harga_barang_search,
-            'request' => \request()->all(),
+            // 'filter' => $harga_barang_search,
+            // 'request' => \request()->all(),
         ]);
     }
 }
