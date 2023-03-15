@@ -82,7 +82,16 @@ class StokAwalController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ids = base64_decode($id);
+
+        $stok = StokAwal::with('StokBarang')->findOrFail($ids);
+
+        $barang = Barang::all();
+
+        return view('pages.stok.edit', [
+            'barang' => $barang,
+            'edit' => $stok
+        ]);
     }
 
     /**
@@ -94,7 +103,30 @@ class StokAwalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $requestall = $request->all();
+
+        $stok = StokAwal::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'barang_id' => 'required',
+            'qty_stok' => 'required|numeric',
+            'tgl_input' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        unset($requestall['_token']);
+        unset($requestall['_method']);
+
+        $edited = $stok->update($requestall);
+
+        if ($edited) {
+            return \response()->json("success", 200);
+        } else {
+            return \response()->json("error", 500);
+        }
     }
 
     /**
@@ -105,7 +137,14 @@ class StokAwalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $stok = StokAwal::findOrFail($id);
+        $deleted = $stok->delete();
+
+        if ($deleted) {
+            return response()->json("succes", 200);
+        } else {
+            return response()->json("error", 500);
+        }
     }
 
     public function getDataStok(Request $request)
@@ -133,7 +172,25 @@ class StokAwalController extends Controller
 
         $queryStok = StokAwal::with('StokBarang')->select('*');
 
-        $where = [];
+        if ($searchBarang) {
+            $queryStok->whereHas('StokBarang', function ($query) use ($searchBarang) {
+                $query->where('nama_barang', $searchBarang);
+            });
+        }
+        if ($searchQty) {
+            $queryStok->where('qty_stok', $searchQty);
+        }
+        if ($searchTgl) {
+            $queryStok->whereDate('tgl_input', $searchTgl);
+        }
+
+        //global search
+        if ($search) {
+            $queryStok->whereHas('StokBarang', function ($query) use ($search) {
+                $query->where('nama_barang', 'like', '%' . $search . '%');
+            });
+            $queryStok->orWhere('qty_stok', 'like', '%' . $search . '%');
+        }
 
         $recordsFiltered = $queryStok->count();
         $res_data = $queryStok
@@ -162,7 +219,6 @@ class StokAwalController extends Controller
                 $data['barang'] = $value->StokBarang->nama_barang;
                 $data['qty'] = $value->qty_stok;
                 $data['tgl'] = $value->tgl_input;
-
 
                 $arr[] = $data;
                 $i++;

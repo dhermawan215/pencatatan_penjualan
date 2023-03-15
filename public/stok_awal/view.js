@@ -13,7 +13,7 @@ var Index = (function (param) {
                 [5, 10, 25, 50, 100],
                 [5, 10, 25, 50, 100],
             ],
-            langugae: {
+            language: {
                 info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
                 infoEmpty: "Menampilkan 0 - 0 dari 0 data",
                 infoFiltered: "",
@@ -43,10 +43,57 @@ var Index = (function (param) {
                 { data: "tgl" },
             ],
         });
+        $(".tfoot-seacrh").on("change", function (e) {
+            var data_index = $(this).attr("data-index");
+            table.columns(data_index).search($(this).val()).draw();
+            table.ajax.reload(null, false);
+        });
+    };
+
+    var handleDelete = function () {
+        $(document).on("click", ".btndel", function () {
+            let id = $(this).data("id");
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: HomeUrl + "/admin/stok/" + id,
+                        data: {
+                            _token: csrf_token,
+                            // ids: id,
+                        },
+                        success: function (response) {
+                            Swal.fire(
+                                "Deleted!",
+                                "Your file has been deleted.",
+                                "success"
+                            );
+                            table.ajax.reload();
+                        },
+                        error: function (response) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Internal Server Error",
+                            });
+                        },
+                    });
+                }
+            });
+        });
     };
     return {
         init: function () {
             handleDataStok();
+            handleDelete();
         },
     };
 })();

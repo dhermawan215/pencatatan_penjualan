@@ -61,7 +61,7 @@
                                                 placeholder="cari qty stok" id="tfootnQty" data-index="<?php echo $data_index;
                                                 $data_index++; ?>">
                                         </td>
-                                        <td><input type="text" class="form-control tfoot-seacrh"
+                                        <td><input type="date" class="form-control tfoot-seacrh"
                                                 placeholder="cari tanggal" id="tfootTgl" data-index="<?php echo $data_index;
                                                 $data_index++; ?>">
                                         </td>
