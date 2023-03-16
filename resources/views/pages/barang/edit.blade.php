@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <form action="javascript:;" id="formEditBarang" method="post" class="p-1">
                             @csrf
-                            @method('PATCH')
+                            @method('PUT')
                             <input type="hidden" name="id" id="idValue" value="{{ $data->id }}">
                             <div class="input-group input-group-outline mb-3">
                                 <label class="form-label">Kode Barang</label>
@@ -55,5 +55,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('data_barang/data-barang.js') }}"></script>
+    <script src="{{ asset('data_barang/edit.js') }}"></script>
 @endpush
