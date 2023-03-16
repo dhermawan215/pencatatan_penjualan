@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StokAwalController;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,11 @@ Route::prefix('admin')->group(function () {
     Route::resource('/stok', StokAwalController::class);
     Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
 });
+
+
+Route::get('/sales', [PenjualanController::class, 'index'])->name('penjualan_index');
+Route::get('/sales/buat_transaksi', [PenjualanController::class, 'buatTransaksi'])->name('penjualan_buat');
+Route::post('/sales/simpan', [PenjualanController::class, 'simpan']);
+Route::post('/sales/transaksi_detail/{sales}', [PenjualanController::class, 'transaksiDetail']);
+
 require __DIR__ . '/auth.php';
