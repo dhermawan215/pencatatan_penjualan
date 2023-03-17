@@ -57,4 +57,37 @@ class PenjualanController extends Controller
     {
         return $id;
     }
+
+    public function lihatTransaksi()
+    {
+        return view('pages.penjualan.lihat_transaksi');
+    }
+
+    public function transaksiAll(Request $request)
+    {
+        $requestall = $request->all();
+
+        dd($requestall);
+
+        $columnsdb = [
+            'id',
+            'id',
+            'tanggal',
+            'pembeli',
+            'total'
+        ];
+
+        //datatable request
+        $draw = $requestall['draw'];
+        $offset = $requestall['start'] ? $requestall['start'] : 0;
+        $limit = $requestall['length'] ? $requestall['length'] : 5;
+        $search = $requestall['search']['value'];
+        $direction =  $requestall['order'][0]['dir'];
+        $orderBy = $columnsdb[$requestall['order'][0]['column']];
+
+        $searchNoTrsc = $requestall['columns'][2]['search']['value'];
+        $searchQty = $requestall['columns'][3]['search']['value'];
+        $searchTgl = $requestall['columns'][4]['search']['value'];
+        $searchBulan = $request['bulan'];
+    }
 }

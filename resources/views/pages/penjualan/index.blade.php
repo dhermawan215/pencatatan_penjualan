@@ -8,7 +8,7 @@
             <div class="col-lg-6">
                 <div class="flex">
                     <a href="{{ route('penjualan_buat') }}" class="btn btn-primary mt-2">Buat Transaksi</a>
-                    <a href="#" class="btn btn-success mt-2 ms-2">Lihat Transaksi</a>
+                    <a href="{{ route('penjualan_transaksi') }}" class="btn btn-success mt-2 ms-2">Lihat Transaksi</a>
                 </div>
             </div>
         </div>
