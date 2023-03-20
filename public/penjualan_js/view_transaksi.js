@@ -38,23 +38,28 @@ var Index = (function () {
             columns: [
                 { data: "cbox", orderable: false },
                 { data: "rnum", orderable: false },
-                { data: "barang" },
-                { data: "qty" },
+                { data: "trno" },
                 { data: "tgl" },
+                { data: "pembeli" },
+                { data: "total" },
             ],
         });
-        $("#bulanSearch").on("change", function () {
-            table.search($(this).val()).draw();
+        $(".tfoot-seacrh").on("change", function () {
+            var data_index = $(this).attr("data-index");
+            table.columns(data_index).search($(this).val()).draw();
             table.ajax.reload(null, false);
         });
     };
+
     return {
         init: function () {
             handleDataTransaksi();
+            filter();
         },
     };
 })();
 
 $(document).ready(function () {
     Index.init();
+    customFilter();
 });

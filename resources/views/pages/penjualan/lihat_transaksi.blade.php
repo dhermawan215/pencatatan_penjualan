@@ -5,42 +5,11 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <label class="text-primary fw-bold">Pencarian Bulanan</label>
-                        <select name="bulan" id="bulanSearch" class="form-control border">
-                            <option>Pilih Bulan</option>
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="col-lg-2">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-warning btn-sm">
-                    <i class="fa fa-plus" aria-hidden="true"></i><span>Edit Barang</span>
-                </button>
-            </div> --}}
 
-            <div class="col-lg-6">
-
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12 col-mb-12 col-sm-12 m-1 p-2">
+                <a href="{{ route('penjualan_index') }}" class="btn btn-sm btn-outline-success"><i
+                        class="fa fa-arrow-left"></i> Kembali</a>
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -49,6 +18,7 @@
                                     <tr>
                                         <th>Aksi</th>
                                         <th>No</th>
+                                        <th>TR No</th>
                                         <th class="text-center text-uppercase text-secondary font-weight-bolder ">
                                             Tgl</th>
                                         <th class="text-uppercase text-secondary font-weight-bolder ">Pembeli</th>
@@ -69,6 +39,11 @@
                                             <input type="hidden" data-index="<?php echo $data_index;
                                             $data_index++;
                                             ?>">
+                                        </td>
+                                        <td><input type="text" class="form-control tfoot-seacrh border"
+                                                placeholder="nomer transaksi" id="tfootTrNo"
+                                                data-index="<?php echo $data_index;
+                                                $data_index++; ?>">
                                         </td>
                                         <td><input type="date" class="form-control tfoot-seacrh border"
                                                 placeholder="cari tanggal" id="tfootTgl" data-index="<?php echo $data_index;

@@ -29,7 +29,7 @@ class PenjualanController extends Controller
 
         $requestall = $request->all();
         $dString = $requestall['tanggal'];
-        $requestall['no_transaksi'] = "TR-" . $dString . "/" .  $stringRandom . "/" . $second;
+        $requestall['no_transaksi'] = "TR-" . $dString . "-" .  $stringRandom . "-" . $second;
 
         $validator = Validator::make($request->all(), [
             'tanggal' => 'required|date',
@@ -55,7 +55,10 @@ class PenjualanController extends Controller
 
     public function transaksiDetail($id)
     {
-        return $id;
+        $transaksi = Transaksi::where('no_transaksi', $id)->first();
+        return view('pages.penjualan.detail_buat_transaksi', [
+            'transaksi' => $transaksi
+        ]);
     }
 
     public function lihatTransaksi()
@@ -67,11 +70,12 @@ class PenjualanController extends Controller
     {
         $requestall = $request->all();
 
-        dd($requestall);
+        // dd($requestall);
 
         $columnsdb = [
             'id',
             'id',
+            'no_transaksi',
             'tanggal',
             'pembeli',
             'total'
@@ -89,5 +93,64 @@ class PenjualanController extends Controller
         $searchQty = $requestall['columns'][3]['search']['value'];
         $searchTgl = $requestall['columns'][4]['search']['value'];
         $searchBulan = $request['bulan'];
+
+        $query = Transaksi::select('*');
+
+        if ($search) {
+            $query->where('pembeli', 'like', '%' . $search . '%')
+                ->orWhere('no_transaksi', 'like', '%' . $search . '%')
+                ->orwhere('total', 'like', '%' . $search . '%');
+        }
+
+        if ($searchBulan) {
+        }
+
+
+        $recordsFiltered = $query->count();
+        $res_data = $query
+            ->skip($offset)
+            ->take($limit)
+            ->orderBy($orderBy, $direction)
+            ->get();
+        $recordsTotal = $res_data->count();
+
+        $data = [];
+        $i = $offset + 1;
+
+        if ($res_data->isEmpty()) {
+            $data['cbox'] = '';
+            $data['rnum'] = '';
+            $data['trno'] = "Data Kosong";
+            $data['tgl'] = "Data Kosong";
+            $data['pembeli'] = "Data Kosong";
+            $data['total'] = "Data Kosong";
+
+            $arr[] = $data;
+        } else {
+            foreach ($res_data as $key => $value) {
+                $data['cbox'] = '<div class="d-flex"><a href="' . route('detail_transaksi', base64_encode($value->no_transaksi)) . '" class="text-primary me-2 ms-2" title="Lihat Data"><i class="fas fa-eye"></i></a ></div>';
+                $data['rnum'] = $i;
+                $data['trno'] = $value->no_transaksi;
+                $data['tgl'] = $value->tanggal;
+                $data['pembeli'] = $value->pembeli;
+                $data['total'] = $value->total ? number_format($value->total) : number_format(0);
+
+
+                $arr[] = $data;
+                $i++;
+            }
+        }
+        return \response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $arr,
+            'all' => $requestall
+        ]);
+    }
+
+    public function detailTransaksi($id)
+    {
+        return base64_decode($id);
     }
 }

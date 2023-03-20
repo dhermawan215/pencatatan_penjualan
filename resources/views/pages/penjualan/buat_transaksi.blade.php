@@ -46,5 +46,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('penjualan/buat.js') }}"></script>
+    <script src="{{ asset('penjualan_js/buat.js') }}"></script>
 @endpush
