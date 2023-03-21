@@ -32,7 +32,8 @@
                             </div>
                             <label class="form-label fw-bold mt-1">Dilayani oleh</label>
                             <div class="input-group input-group-outline mb-3">
-                                <input type="text" name="dilayani_oleh" id="dilayaniOleh" class="form-control">
+                                <input type="text" name="dilayani_oleh" id="dilayaniOleh" class="form-control"
+                                    value="{{ Auth::user()->name }}">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save</button>

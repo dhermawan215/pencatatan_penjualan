@@ -35,19 +35,21 @@ Route::prefix('/account')->middleware(['auth'])
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('barang', BarangController::class);
     Route::post('/barang/list_barang', [BarangController::class, 'getDataBarang']);
     Route::resource('/stok', StokAwalController::class);
     Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
 });
 
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/sales', [PenjualanController::class, 'index'])->name('penjualan_index');
-Route::get('/sales/buat_transaksi', [PenjualanController::class, 'buatTransaksi'])->name('penjualan_buat');
-Route::post('/sales/simpan', [PenjualanController::class, 'simpan']);
-Route::get('/sales/transaksi_detail/{sales}', [PenjualanController::class, 'transaksiDetail']);
-Route::get('/sales/transaksi', [PenjualanController::class, 'lihatTransaksi'])->name('penjualan_transaksi');
-Route::post('/sales/transaksiall', [PenjualanController::class, 'transaksiAll']);
-Route::get('/sales/detail_transaksi/{sales}', [PenjualanController::class, 'detailTransaksi'])->name('detail_transaksi');
+    Route::get('/sales', [PenjualanController::class, 'index'])->name('penjualan_index');
+    Route::get('/sales/buat_transaksi', [PenjualanController::class, 'buatTransaksi'])->name('penjualan_buat');
+    Route::post('/sales/simpan', [PenjualanController::class, 'simpan']);
+    Route::get('/sales/transaksi_detail/{sales}', [PenjualanController::class, 'transaksiDetail']);
+    Route::get('/sales/transaksi', [PenjualanController::class, 'lihatTransaksi'])->name('penjualan_transaksi');
+    Route::post('/sales/transaksiall', [PenjualanController::class, 'transaksiAll']);
+    Route::get('/sales/detail_transaksi/{sales}', [PenjualanController::class, 'detailTransaksi'])->name('detail_transaksi');
+});
 require __DIR__ . '/auth.php';

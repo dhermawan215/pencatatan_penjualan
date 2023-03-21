@@ -98,7 +98,8 @@
                             </div>
                             <div class="input-group input-group-outline mb-3">
                                 <label class="form-label">Didaftarkan Oleh</label>
-                                <input type="text" name="didaftarkan_oleh" id="didaftarkanOleh" class="form-control">
+                                <input type="text" name="didaftarkan_oleh" id="didaftarkanOleh" class="form-control"
+                                    value="{{ Auth::user()->name }}">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
