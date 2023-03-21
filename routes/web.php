@@ -51,5 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sales/transaksi', [PenjualanController::class, 'lihatTransaksi'])->name('penjualan_transaksi');
     Route::post('/sales/transaksiall', [PenjualanController::class, 'transaksiAll']);
     Route::get('/sales/detail_transaksi/{sales}', [PenjualanController::class, 'detailTransaksi'])->name('detail_transaksi');
+    Route::post('/sales/transaksi_item', [PenjualanController::class, 'transaksiItem']);
 });
 require __DIR__ . '/auth.php';

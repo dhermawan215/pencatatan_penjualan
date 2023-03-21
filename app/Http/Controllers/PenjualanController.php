@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use Carbon\Carbon;
 use App\Models\Transaksi;
 use Illuminate\Support\Str;
@@ -56,8 +57,10 @@ class PenjualanController extends Controller
     public function transaksiDetail($id)
     {
         $transaksi = Transaksi::where('no_transaksi', $id)->first();
+        $barang = Barang::all();
         return view('pages.penjualan.detail_buat_transaksi', [
-            'transaksi' => $transaksi
+            'transaksi' => $transaksi,
+            'barang' => $barang
         ]);
     }
 
@@ -152,5 +155,9 @@ class PenjualanController extends Controller
     public function detailTransaksi($id)
     {
         return base64_decode($id);
+    }
+
+    public function transaksiItem(Request $request)
+    {
     }
 }
