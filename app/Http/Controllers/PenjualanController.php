@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use Carbon\Carbon;
 use App\Models\Transaksi;
+use App\Models\TransaksiDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -72,9 +73,6 @@ class PenjualanController extends Controller
     public function transaksiAll(Request $request)
     {
         $requestall = $request->all();
-
-        // dd($requestall);
-
         $columnsdb = [
             'id',
             'id',
@@ -93,9 +91,9 @@ class PenjualanController extends Controller
         $orderBy = $columnsdb[$requestall['order'][0]['column']];
 
         $searchNoTrsc = $requestall['columns'][2]['search']['value'];
-        $searchQty = $requestall['columns'][3]['search']['value'];
-        $searchTgl = $requestall['columns'][4]['search']['value'];
-        $searchBulan = $request['bulan'];
+        $searchTotal = $requestall['columns'][5]['search']['value'];
+        $searchPembeli = $requestall['columns'][4]['search']['value'];
+        $searchTgl = $requestall['columns'][3]['search']['value'];
 
         $query = Transaksi::select('*');
 
@@ -105,9 +103,21 @@ class PenjualanController extends Controller
                 ->orwhere('total', 'like', '%' . $search . '%');
         }
 
-        if ($searchBulan) {
+        if ($searchNoTrsc) {
+            $query->where('no_transaksi', $searchNoTrsc);
         }
 
+        if ($searchTgl) {
+            $query->whereDate('tanggal', $searchTgl);
+        }
+
+        if ($searchPembeli) {
+            $query->where('pembeli', $searchPembeli);
+        }
+
+        if ($searchTotal) {
+            $query->where('total', $searchTotal);
+        }
 
         $recordsFiltered = $query->count();
         $res_data = $query
@@ -148,7 +158,6 @@ class PenjualanController extends Controller
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
             'data' => $arr,
-            'all' => $requestall
         ]);
     }
 
@@ -159,5 +168,65 @@ class PenjualanController extends Controller
 
     public function transaksiItem(Request $request)
     {
+        $requestall = $request->all();
+
+        // \dd($requestall);
+
+        $columnsdb = [
+            'id',
+            'barang_id',
+            'harga_satuan',
+            'qty',
+            'sub_total'
+        ];
+
+        $trId = $requestall['trId'];
+        $draw = $requestall['draw'];
+        $offset = $requestall['start'] ? $requestall['start'] : 0;
+        $limit = $requestall['length'] ? $requestall['length'] : 5;
+        $search = $requestall['search']['value'];
+        $direction =  $requestall['order'][0]['dir'];
+        $orderBy = $columnsdb[$requestall['order'][0]['column']];
+
+        $query = TransaksiDetail::with('TransaksiBarang')->select('*');
+        $query->where('transaksi_id', $trId);
+
+        $recordsFiltered = $query->count();
+        $res_data = $query
+            ->skip($offset)
+            ->take($limit)
+            ->orderBy($orderBy, $direction)
+            ->get();
+        $recordsTotal = $res_data->count();
+
+        $data = [];
+        $i = $offset + 1;
+
+        if ($res_data->isEmpty()) {
+            $data['cbox'] = '';
+            $data['barang'] = "Data Kosong";
+            $data['harga'] = "Data Kosong";
+            $data['qty'] = "Data Kosong";
+            $data['subtotal'] = "Data Kosong";
+
+            $arr[] = $data;
+        } else {
+            foreach ($res_data as $key => $value) {
+                $data['cbox'] = '<div class="d-flex"><button type="button" class="btndel btn btn-sm btn-danger" id="btndeletes" data-id="' . $value->id . '">Delete</button><p class="ms-1 fw-bold">' . $i . '</p></div>';
+                $data['barang'] = $value->TransaksiBarang->nama_barang;
+                $data['harga'] = $value->harga;
+                $data['qty'] = $value->qty;
+                $data['subtotal'] = $value->sub_total ? number_format($value->sub_total) : number_format(0);
+
+                $arr[] = $data;
+                $i++;
+            }
+        }
+        return \response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $arr,
+        ]);
     }
 }

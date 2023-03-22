@@ -18,6 +18,22 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <p class="lead fw-bold text-primary">Detail:</p>
+
+                        <div class="row">
+                            <div class="col mb-3">
+                                <p class="small ">Tanggal</p>
+                                <p>{{ $transaksi->tanggal }}</p>
+                            </div>
+                            <div class="col mb-3">
+                                <p class="small  ">Pembeli</p>
+                                <p>{{ $transaksi->pembeli }}</p>
+                            </div>
+                            <div class="col mb-3">
+                                <p class="small  ">Alamat</p>
+                                <p>{{ $transaksi->alamat }}</p>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -42,15 +58,20 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-lg-3 ms-2">
+                                <div class="col-lg-2 ms-2">
                                     <label class="form-label text-primary fw-bold" for="">Harga Satuan</label>
                                     <input type="number" name="harga_satuan" id="hargaSatuan" class="form-control border"
                                         placeholder="harga satuan">
                                 </div>
-                                <div class="col-lg-3 ms-2">
+                                <div class="col-lg-2 ms-2">
                                     <label class="form-label text-primary fw-bold" for="">Qty</label>
                                     <input type="number" name="qty" id="qtyBarang" class="form-control border"
                                         placeholder="qty">
+                                </div>
+                                <div class="col-lg-2 ms-2">
+                                    <label class="form-label text-primary fw-bold" for="">Sub Total</label>
+                                    <input type="number" name="sub_total" id="subTotal" class="form-control border"
+                                        placeholder="sub total">
                                 </div>
                                 <div class="col-lg-2 ms-2 ps-3 px-3 mt-1 ">
                                     <div class="row">
@@ -74,12 +95,11 @@
                             <table id="tableItemTransaksi" class="table table-hover table-striped align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Aksi</th>
-                                        <th>No</th>
+                                        <th>#</th>
                                         <th>Barang</th>
-                                        <th>
-                                            Harga</th>
+                                        <th>Harga</th>
                                         <th>Qty</th>
+                                        <th>Sub Total</th>
                                     </tr>
                                 </thead>
                             </table>

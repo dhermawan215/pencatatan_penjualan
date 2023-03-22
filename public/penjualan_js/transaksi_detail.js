@@ -1,5 +1,6 @@
 var Index = (function () {
     var table;
+    const csrf_token = $('meta[name="_token"]').attr("content");
     const trId = $("#transaksiId").val();
 
     var handleItemtransaksi = function () {
@@ -7,7 +8,7 @@ var Index = (function () {
             responsive: false,
             autoWidth: false,
             pageLength: 5,
-            searching: false,
+            searching: true,
             paging: true,
             lengthMenu: [
                 [5, 10, 25, 50, 100],
@@ -38,10 +39,10 @@ var Index = (function () {
             },
             columns: [
                 { data: "cbox", orderable: false },
-                { data: "rnum", orderable: false },
                 { data: "barang" },
                 { data: "harga" },
                 { data: "qty" },
+                { data: "subtotal" },
             ],
         });
     };
