@@ -51,7 +51,7 @@ class PenjualanController extends Controller
         if ($transaksi->exists) {
             return response()->json($transaksi, 200);
         } else {
-            return \response()->json("error", 403);
+            return \response()->json("error", 500);
         }
     }
 
@@ -199,6 +199,8 @@ class PenjualanController extends Controller
             ->get();
         $recordsTotal = $res_data->count();
 
+        $dataSum = $query->sum('sub_total');
+
         $data = [];
         $i = $offset + 1;
 
@@ -214,9 +216,9 @@ class PenjualanController extends Controller
             foreach ($res_data as $key => $value) {
                 $data['cbox'] = '<div class="d-flex"><button type="button" class="btndel btn btn-sm btn-danger" id="btndeletes" data-id="' . $value->id . '">Delete</button><p class="ms-1 fw-bold">' . $i . '</p></div>';
                 $data['barang'] = $value->TransaksiBarang->nama_barang;
-                $data['harga'] = $value->harga;
+                $data['harga'] = $value->harga_satuan ? "Rp." . \number_format($value->harga_satuan, 0, ',', '.') : "Rp." . \number_format(0);
                 $data['qty'] = $value->qty;
-                $data['subtotal'] = $value->sub_total ? number_format($value->sub_total) : number_format(0);
+                $data['subtotal'] = $value->sub_total ? "Rp." . number_format($value->sub_total, 0, ',', '.') : "Rp." . number_format(0);
 
                 $arr[] = $data;
                 $i++;
@@ -227,6 +229,45 @@ class PenjualanController extends Controller
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
             'data' => $arr,
+            'sum' => $dataSum
         ]);
+    }
+
+    public function barang(Request $request)
+    {
+        $requestall = $request->all();
+
+        $id = $requestall['idvalue'];
+
+        $barang = Barang::findOrFail($id);
+
+        return \response()->json($barang, 200);
+    }
+
+    public function simpanTrDetail(Request $request)
+    {
+        $requestall = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'transaksi_id' => 'required',
+            'barang_id' => 'required',
+            'harga_satuan' => 'required|numeric',
+            'qty' => 'required|numeric',
+            'sub_total' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        unset($requestall['_token']);
+
+        $trDetail = TransaksiDetail::create($requestall);
+
+        if ($trDetail->exists) {
+            return response()->json("success", 200);
+        } else {
+            return \response()->json("error", 500);
+        }
     }
 }

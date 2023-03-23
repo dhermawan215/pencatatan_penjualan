@@ -7,7 +7,7 @@ var Index = (function () {
             let formData = new FormData(form[0]);
 
             $.ajax({
-                type: "Post",
+                type: "POST",
                 url: HomeUrl + "/sales/simpan",
                 data: formData,
                 processData: false,

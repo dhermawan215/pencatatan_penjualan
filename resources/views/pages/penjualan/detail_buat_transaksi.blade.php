@@ -46,6 +46,8 @@
                 <div class="card">
                     <form action="javascript:;" id="formTransaksiDetail" method="post" class="">
                         <div class="card-body">
+                            @csrf
+                            <h6 class="h6 text-primary mb-1">Tambah Detail Pembelian Barang</h6>
                             <div class="d-flex">
                                 <input type="hidden" id="transaksiId" name="transaksi_id" value="{{ $transaksi->id }}">
                                 <div class="col-lg-3">
@@ -91,7 +93,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <p class="text-primary fw-normal">Item Pembelian</p>
+                            <h6 class="text-primary fw-bold">Item Pembelian</h6>
                             <table id="tableItemTransaksi" class="table table-hover table-striped align-items-center mb-0">
                                 <thead>
                                     <tr>
@@ -104,6 +106,35 @@
                                 </thead>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-lg-12 col-sm-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="text-primary fw-bold">Total Pembayaran</h6>
+                        <form action="javascript:;" id="formTransaksiTotal" method="post" class="">
+                            @csrf
+                            <input type="hidden" id="transaksiId" name="transaksi_id" value="{{ $transaksi->id }}">
+
+                            <div class="row">
+                                <div class="d-flex">
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+                                        <div class="d-flex">
+                                            <label for="total" class="col-form-label">Total: </label>
+                                            <input type="number" id="total" class="form-control border ms-2">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-12">
+                                        <label for=""></label>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
