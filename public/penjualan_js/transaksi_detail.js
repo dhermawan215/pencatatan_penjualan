@@ -115,11 +115,85 @@ var Index = (function () {
         });
     };
 
+    var handleDelete = function () {
+        $(document).on("click", ".btndel", function () {
+            let id = $(this).data("id");
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: HomeUrl + "/sales/delete_item_tr/" + id,
+                        data: {
+                            _token: csrf_token,
+                            // ids: id,
+                        },
+                        success: function (response) {
+                            Swal.fire(
+                                "Deleted!",
+                                "Your file has been deleted.",
+                                "success"
+                            );
+                            table.ajax.reload();
+                        },
+                        error: function (response) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Internal Server Error",
+                            });
+                        },
+                    });
+                }
+            });
+        });
+    };
+
+    var handleFormTotal = function () {
+        $("#formTransaksiTotal").submit(function (e) {
+            e.preventDefault();
+
+            const form = $(this);
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                url: HomeUrl + "/sales/simpan_tr_total",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    const json = JSON.stringify(response);
+                    let obj = JSON.parse(json);
+                    const trNo = obj.no_transaksi;
+
+                    //tinggal redirect sukses dat cetak resi
+                    toastr.success("Data Berhasil Ditambahkan", "Success");
+                    table.ajax.reload(null, false);
+                },
+                error: function (response) {
+                    $.each(response.responseJSON, function (key, value) {
+                        toastr.error(value);
+                    });
+                },
+            });
+        });
+    };
+
     return {
         init: function () {
             handleItemtransaksi();
             handleBarangDropDown();
             handleSubmitDetailPembelian();
+            handleDelete();
+            handleFormTotal();
         },
     };
 })();

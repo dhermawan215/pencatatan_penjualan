@@ -54,5 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sales/transaksi_item', [PenjualanController::class, 'transaksiItem']);
     Route::post('/sales/barang', [PenjualanController::class, 'barang']);
     Route::post('/sales/simpan_transaksi_detail', [PenjualanController::class, 'simpanTrDetail']);
+    Route::delete('/sales/delete_item_tr/{sales}', [PenjualanController::class, 'deleteItemTr']);
+    Route::get('/sales/success/{sales}', [PenjualanController::class, 'success']);
+    Route::post('/sales/simpan_tr_total', [PenjualanController::class, 'submitTotal']);
 });
 require __DIR__ . '/auth.php';

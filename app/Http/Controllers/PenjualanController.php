@@ -270,4 +270,48 @@ class PenjualanController extends Controller
             return \response()->json("error", 500);
         }
     }
+
+    public function deleteItemTr($id)
+    {
+        $ItemTr = TransaksiDetail::findOrFail($id);
+        $deleted = $ItemTr->delete();
+
+        if ($deleted) {
+            return response()->json("succes", 200);
+        } else {
+            return response()->json("error", 500);
+        }
+    }
+
+    public function submitTotal(Request $request)
+    {
+        $requestall = $request->all();
+
+        $idTr = $requestall['transaksi_id'];
+
+        $validator = Validator::make($request->all(), [
+            'total' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        unset($requestall['_token']);
+        // dd($requestall);
+
+        $transaksiTotal = Transaksi::findOrFail($idTr);
+
+        $updated = $transaksiTotal->update($requestall);
+
+        if ($updated) {
+            return \response()->json($transaksiTotal, 200);
+        } else {
+            return \response()->json("gagal", 500);
+        }
+    }
+
+    public function success($id)
+    {
+    }
 }

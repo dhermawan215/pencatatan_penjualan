@@ -125,7 +125,8 @@
                                     <div class="col-lg-10 col-md-10 col-sm-12">
                                         <div class="d-flex">
                                             <label for="total" class="col-form-label">Total: </label>
-                                            <input type="number" id="total" class="form-control border ms-2">
+                                            <input type="number" name="total" id="total"
+                                                class="form-control border ms-2">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-12">
