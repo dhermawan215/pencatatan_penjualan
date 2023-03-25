@@ -305,7 +305,7 @@ class PenjualanController extends Controller
         $updated = $transaksiTotal->update($requestall);
 
         if ($updated) {
-            return \response()->json($transaksiTotal, 200);
+            return \response()->json(\base64_encode($transaksiTotal->no_transaksi), 200);
         } else {
             return \response()->json("gagal", 500);
         }
@@ -313,5 +313,14 @@ class PenjualanController extends Controller
 
     public function success($id)
     {
+        $ids = \base64_decode($id);
+
+        $transaksiData = Transaksi::where('no_transaksi', $ids)->first();
+
+        $transaksiDetail = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $transaksiData->id)->get();
+        return \view('pages.penjualan.success', [
+            'trdata' => $transaksiData,
+            'trdetail' => $transaksiDetail
+        ]);
     }
 }

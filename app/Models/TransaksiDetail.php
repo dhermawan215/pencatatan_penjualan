@@ -19,7 +19,7 @@ class TransaksiDetail extends Model
         'sub_total'
     ];
 
-    public function Transaksi()
+    public function transaksi()
     {
         return $this->belongsTo(Transaksi::class, 'transaksi_id', 'id');
     }

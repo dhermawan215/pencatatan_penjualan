@@ -170,13 +170,11 @@ var Index = (function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    const json = JSON.stringify(response);
-                    let obj = JSON.parse(json);
-                    const trNo = obj.no_transaksi;
-
-                    //tinggal redirect sukses dat cetak resi
                     toastr.success("Data Berhasil Ditambahkan", "Success");
-                    table.ajax.reload(null, false);
+                    setTimeout(() => {
+                        window.location.href =
+                            HomeUrl + "/sales/success/" + response;
+                    }, 4000);
                 },
                 error: function (response) {
                     $.each(response.responseJSON, function (key, value) {
