@@ -1,13 +1,13 @@
 @extends('layouts.front')
 @section('web_title')
-    Transaksi Sukses
+    Detail Transaksi
 @endsection
 
 @section('content')
     <div class="container py-4">
         <div class="row">
             <div class="col-lg-4">
-                <a href="{{ route('penjualan_index') }}" class="btn btn-outline-success">Halaman Utama</a>
+                <a href="{{ route('penjualan_transaksi') }}" class="btn btn-outline-success">Kembali</a>
             </div>
         </div>
         <div class="row">
@@ -18,7 +18,7 @@
                 <div class="card ">
                     <div class="card-body mx-4">
                         <div class="container">
-                            <p class="my-2 mx-2" style="font-size: 30px;">Terima kasih, Telah Berbelanja</p>
+                            <p class="my-2 mx-2" style="font-size: 30px;">Detail Transaksi</p>
                             <div class="row">
                                 <hr>
                                 <h6 class="text-primary ">Detail Pelanggan:</h6>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="text-center" style="margin-top: 90px;">
 
-                                <p>Struk belanja ini sebagai tanda bukti pembayaran yang sah. </p>
+
                             </div>
 
                         </div>
@@ -85,6 +85,4 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('plugins/jquery.PrintArea.js') }}"></script>
-    <script src="{{ asset('penjualan_js/success.js') }}"></script>
 @endpush

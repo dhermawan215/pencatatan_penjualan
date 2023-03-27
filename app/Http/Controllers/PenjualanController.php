@@ -163,7 +163,15 @@ class PenjualanController extends Controller
 
     public function detailTransaksi($id)
     {
-        return base64_decode($id);
+        $ids = \base64_decode($id);
+
+        $transaksiData = Transaksi::where('no_transaksi', $ids)->first();
+
+        $transaksiDetail = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $transaksiData->id)->get();
+        return \view('pages.penjualan.detail_transaksi', [
+            'trdata' => $transaksiData,
+            'trdetail' => $transaksiDetail
+        ]);
     }
 
     public function transaksiItem(Request $request)
