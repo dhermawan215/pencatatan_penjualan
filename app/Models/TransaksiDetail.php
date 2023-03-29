@@ -14,10 +14,12 @@ class TransaksiDetail extends Model
     protected $fillable = [
         'transaksi_id',
         'barang_id',
-        'qty'
+        'harga_satuan',
+        'qty',
+        'sub_total'
     ];
 
-    public function Transaksi()
+    public function transaksi()
     {
         return $this->belongsTo(Transaksi::class, 'transaksi_id', 'id');
     }
