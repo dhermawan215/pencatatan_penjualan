@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages.dashboard');
+    return view('dashboard_app');
 });
 
 Route::get('/dashboard', function () {
@@ -43,7 +43,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-
+    Route::get('/app', function () {
+        return view('pages.dashboard');
+    });
     Route::get('/sales', [PenjualanController::class, 'index'])->name('penjualan_index');
     Route::get('/sales/buat_transaksi', [PenjualanController::class, 'buatTransaksi'])->name('penjualan_buat');
     Route::post('/sales/simpan', [PenjualanController::class, 'simpan']);
