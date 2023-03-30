@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminTransaksi;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
@@ -40,6 +41,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('/barang/list_barang', [BarangController::class, 'getDataBarang']);
     Route::resource('/stok', StokAwalController::class);
     Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
+    Route::resource('/transaksi', AdminTransaksi::class);
+    Route::post('/transaksi/data_transaksi', [AdminTransaksi::class, 'transactionData']);
 });
 
 Route::middleware(['auth'])->group(function () {
