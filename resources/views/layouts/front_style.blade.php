@@ -13,4 +13,5 @@
 <!-- <link rel="stylesheet" href="{{ asset('datatable/DataTables-1.13.2/css/dataTables.bootstrap5.min.css') }}"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 <link rel="stylesheet" href="{{ asset('datatable/Responsive-2.4.0/css/responsive.bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('select2-4.1.0/dist/css/select2.min.css') }}">
 <!-- <link rel="stylesheet" href="{{ asset('datatable/Responsive-2.4.0/css/responsive.bootstrap5.min.css') }}"> -->

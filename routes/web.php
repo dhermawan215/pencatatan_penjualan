@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminLaporan;
 use App\Http\Controllers\AdminTransaksi;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PenjualanController;
@@ -43,6 +44,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
     Route::resource('/transaksi', AdminTransaksi::class);
     Route::post('/transaksi/data_transaksi', [AdminTransaksi::class, 'transactionData']);
+    Route::get('/laporan', [AdminLaporan::class, 'index'])->name('admin_laporan_index');
+    Route::post('/laporan/data_transaksi', [AdminLaporan::class, 'dataTransaksi']);
 });
 
 Route::middleware(['auth'])->group(function () {
