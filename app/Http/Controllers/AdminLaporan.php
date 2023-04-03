@@ -16,9 +16,11 @@ class AdminLaporan extends Controller
     {
         $requestall = $request->all();
         $search = $request->search;
-
-        $query = Transaksi::where('no_transaksi', 'like', '%' . $search . '%')->paginate(10);
-
+        if ($search != \null) {
+            $query = Transaksi::select('id', 'no_transaksi')->where('no_transaksi', 'like', '%' . $search . '%')->get();
+        } else {
+            $query = Transaksi::orderBy('no_transaksi', 'asc')->select('id', 'no_transaksi')->paginate(10);
+        }
 
         $data = [];
         foreach ($query as $key => $value) {

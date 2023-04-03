@@ -45,6 +45,14 @@ var Index = (function () {
                 toastr.success("berhasil di pilih", data);
             });
     };
+
+    var handleNoTrsc = function () {
+        $("#formNoTrsc").submit(function (e) {
+            e.preventDefault();
+            const form = $(this);
+            let formData = new FormData(form[0]);
+        });
+    };
     return {
         init: function () {
             handleNoTransaksi();

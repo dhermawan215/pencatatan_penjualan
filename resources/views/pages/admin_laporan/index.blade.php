@@ -35,11 +35,11 @@
                                 aria-labelledby="nav-home-tab">
                                 <div class="m-2">
                                     <form action="javascript:;" id="formNoTrsc" class="p-1" method="post">
+                                        @csrf
                                         <label for="">Cari berdasarkan nomer transaksi</label>
-
                                         <div class="input-group">
-                                            <select name="no_trsc" id="noTrsc" class="form-control ">
-                                                <option value="0">Pilih No Transaksi</option>
+                                            <select name="no_transaksi" id="noTrsc" class="form-control ">
+                                                <option>Pilih No Transaksi</option>
                                             </select>
                                         </div>
 
