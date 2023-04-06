@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\TransaksiDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class AdminLaporan extends Controller
 {
@@ -44,10 +46,11 @@ class AdminLaporan extends Controller
 
         $pdf = PDF::loadView('pages.admin_laporan.laporan_tr_pdf', ['trsc' => $transaksi])->setOptions(['defaultFont' => 'sans-serif']);
         $path = public_path('pdf/');
-        $fileName =  time() . '.' . 'pdf';
+        $rndm = Str::random(5);
+        $fileName =  time() . '-' . $rndm . '.' . 'pdf';
         $pdf->save($path . '/' . $fileName);
 
-        $pdf = public_path('pdf/' . $fileName);
-        return response()->download($pdf);
+        $pdf2 = public_path('pdf/' . $fileName);
+        return response()->download($pdf2)->deleteFileAfterSend(true);
     }
 }

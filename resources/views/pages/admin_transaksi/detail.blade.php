@@ -38,8 +38,9 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Barang</th>
-                                                <th scope="col">Qty</th>
                                                 <th scope="col">Harga</th>
+                                                <th scope="col">Qty</th>
+                                                <th scope="col">Sub Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,11 +48,13 @@
                                                 $no = 1;
                                             @endphp
                                             @foreach ($trdetail as $valdetail)
-                                                <tr>
+                                                <tr class="text-center">
                                                     <th scope="row">{{ $no++ }}</th>
                                                     <td>{{ $valdetail->TransaksiBarang->nama_barang }}</td>
+                                                    <td>{{ $valdetail->harga_satuan ? 'Rp. ' . number_format($valdetail->harga_satuan, 0, ',', '.') : 'Rp. ' . number_format(0) }}
+                                                    </td>
                                                     <td>{{ $valdetail->qty }}</td>
-                                                    <td>{{ $valdetail->sub_total ? 'Rp.' . number_format($valdetail->sub_total, 0, ',', '.') : 'Rp.' . number_format(0) }}
+                                                    <td>{{ $valdetail->sub_total ? 'Rp. ' . number_format($valdetail->sub_total, 0, ',', '.') : 'Rp. ' . number_format(0) }}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -66,7 +69,7 @@
 
                                 <div class="col-xl-12">
                                     <p class="float-end fw-bold">Total:
-                                        {{ $trdata->total ? 'Rp.' . number_format($trdata->total, 0, ',', '.') : 'Rp.' . number_format(0) }}
+                                        {{ $trdata->total ? 'Rp. ' . number_format($trdata->total, 0, ',', '.') : 'Rp. ' . number_format(0) }}
                                     </p>
                                 </div>
                                 <hr style="border: 2px solid black;">
