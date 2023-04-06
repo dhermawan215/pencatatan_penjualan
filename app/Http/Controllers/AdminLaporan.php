@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Models\TransaksiDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminLaporan extends Controller
 {
@@ -29,5 +31,23 @@ class AdminLaporan extends Controller
             $arr[] = $data;
         }
         return response()->json($arr, 200);
+    }
+
+    public function laporanByTrsc(Request $request)
+    {
+        $all = $request->all();
+
+        $id = $all['no_transaksi'];
+        // $transaksi = Transaksi::with(['Transkasis, Transkasis.TransaksiBarang'])->findOrFail($id);
+
+        $transaksi = TransaksiDetail::with('transaksi', 'TransaksiBarang')->where('transaksi_id', $id)->get();
+
+        $pdf = PDF::loadView('pages.admin_laporan.laporan_tr_pdf', ['trsc' => $transaksi])->setOptions(['defaultFont' => 'sans-serif']);
+        $path = public_path('pdf/');
+        $fileName =  time() . '.' . 'pdf';
+        $pdf->save($path . '/' . $fileName);
+
+        $pdf = public_path('pdf/' . $fileName);
+        return response()->download($pdf);
     }
 }
