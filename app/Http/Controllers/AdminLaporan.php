@@ -28,8 +28,6 @@ class AdminLaporan extends Controller
             $data['no_transaksi'] = $value->no_transaksi;
             $arr[] = $data;
         }
-
-        // \dd($query);
         return response()->json($arr, 200);
     }
 }
