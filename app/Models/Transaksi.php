@@ -24,4 +24,9 @@ class Transaksi extends Model
     {
         return $this->hasMany(TransaksiDetail::class, 'transaksi_id', 'id');
     }
+
+    // public function transaksibrs()
+    // {
+    //     return $this->hasManyThrough(Barang::class, TransaksiDetail::class, 'transaksi_id', );
+    // }
 }

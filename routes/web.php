@@ -47,6 +47,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/laporan', [AdminLaporan::class, 'index'])->name('admin_laporan_index');
     Route::post('/laporan/data_transaksi', [AdminLaporan::class, 'dataTransaksi']);
     Route::post('/laporan/laporan_transaksi', [AdminLaporan::class, 'laporanByTrsc'])->name('laporan_trsc');
+    Route::post('/laporan/laporan_harian', [AdminLaporan::class, 'laporanHarian'])->name('laporan_harian');
 });
 
 Route::middleware(['auth'])->group(function () {

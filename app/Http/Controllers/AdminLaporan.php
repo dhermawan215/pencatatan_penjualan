@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\TransaksiDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Carbon\Carbon;
 
 class AdminLaporan extends Controller
 {
@@ -52,5 +52,71 @@ class AdminLaporan extends Controller
 
         $pdf2 = public_path('pdf/' . $fileName);
         return response()->download($pdf2)->deleteFileAfterSend(true);
+    }
+
+    public function laporanHarian(Request $request)
+    {
+        $harian = $request->harian;
+
+        $transaksi = Transaksi::whereDate('tanggal', $harian)->get();
+        $data = [];
+        if (!$transaksi->isEmpty()) {
+
+            foreach ($transaksi as $key => $value) {
+                $data['no_trsc'] = $value->no_transaksi;
+                $data['tanggal'] = $value->tanggal;
+                $data['total'] = $value->total;
+                $data['tgl_header'] = Carbon::createFromFormat('Y-m-d', $value->tanggal)->format('d-m-Y');
+                $data['relasi'] = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $value->id)->get();
+                $arr[] = $data;
+            }
+            // return \view('pages.admin_laporan.harian', ['data' => $arr]);
+            $pdf = PDF::loadView('pages.admin_laporan.harian', ['data' => $arr])->setOptions(['defaultFont' => 'sans-serif']);
+            $path = public_path('pdf/');
+            $rndm = Str::random(5);
+            $fileName = "Harian" . '-' . time() . '-' . $rndm . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+
+            $pdf2 = public_path('pdf/' . $fileName);
+            return response()->download($pdf2)->deleteFileAfterSend(true);
+        } else {
+            $data['response'] = "data kosong";
+            return \response()->json($data, 404);
+        }
+        // \dd($transaksi);
+
+    }
+
+    public function laporanMingguan(Request $request)
+    {
+        $awal = $request->awal_minggu;
+        $akhir = $request->akhir_minggu;
+
+        $transaksi = Transaksi::whereDate('tanggal', '>=', $awal)
+            ->whereDate('tanggal', '<=', $akhir)->get();
+        $data = [];
+        if (!$transaksi->isEmpty()) {
+
+            foreach ($transaksi as $key => $value) {
+                $data['no_trsc'] = $value->no_transaksi;
+                $data['tanggal'] = $value->tanggal;
+                $data['total'] = $value->total;
+                $data['tgl_header'] = Carbon::createFromFormat('Y-m-d', $value->tanggal)->format('d-m-Y');
+                $data['relasi'] = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $value->id)->get();
+                $arr[] = $data;
+            }
+            // return \view('pages.admin_laporan.harian', ['data' => $arr]);
+            $pdf = PDF::loadView('pages.admin_laporan.harian', ['data' => $arr])->setOptions(['defaultFont' => 'sans-serif']);
+            $path = public_path('pdf/');
+            $rndm = Str::random(5);
+            $fileName = "Harian" . '-' . time() . '-' . $rndm . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+
+            $pdf2 = public_path('pdf/' . $fileName);
+            return response()->download($pdf2)->deleteFileAfterSend(true);
+        } else {
+            $data['response'] = "data kosong";
+            return \response()->json($data, 404);
+        }
     }
 }

@@ -73,10 +73,47 @@ var Index = (function () {
             });
         });
     };
+
+    var handleHarian = function () {
+        $("#formCariHarian").submit(function (e) {
+            e.preventDefault();
+            const form = $(this);
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                url: HomeUrl + "/admin/laporan/laporan_harian",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    var blob = new Blob([response]);
+                    var link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "Sample.pdf";
+                    link.click();
+                },
+                error: function (response) {
+                    $.each(response.responseJSON, function (key, value) {
+                        toastr.error(value);
+                    });
+                },
+            });
+        });
+    };
+
+    var handleBulanan = function () {
+        $("#pencarianBulan").select2({
+            allowClear: true,
+            placeholder: "pilih bulan",
+        });
+    };
     return {
         init: function () {
             handleNoTransaksi();
             handleNoTrsc();
+            handleHarian();
+            handleBulanan();
         },
     };
 })();
