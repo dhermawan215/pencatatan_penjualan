@@ -5,7 +5,6 @@
 
 @section('content')
     <div class="container-fluid py-4">
-
         <div class="row">
             <div class="col-lg-12 col-mb-12 col-sm-12 m-1 p-2">
 

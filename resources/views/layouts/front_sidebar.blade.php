@@ -34,45 +34,48 @@
                 </a>
             </li>
             <hr>
-            <li class="nav-item">
-                <p class="nav-link text-sm">Admin Module</p>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/barang*') ? 'bg-gradient-primary' : '' }}"
-                    href="{{ route('barang.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">table_view</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Data Barang</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/stok*') ? 'bg-gradient-primary' : '' }}"
-                    href="{{ route('stok.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">receipt_long</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Stok</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/transaksi*') ? 'bg-gradient-primary' : '' }} "
-                    href="{{ route('transaksi.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">view_in_ar</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Transaksi</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/laporan*') ? 'bg-gradient-primary' : '' }} "
-                    href="{{ route('admin_laporan_index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">view_in_ar</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Laporan Pejualan</span>
-                </a>
-            </li>
+            @if (Auth::user()->roles == 2)
+                <li class="nav-item">
+                    <p class="nav-link text-sm">Admin Module</p>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('admin/barang*') ? 'bg-gradient-primary' : '' }}"
+                        href="{{ route('barang.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Data Barang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('admin/stok*') ? 'bg-gradient-primary' : '' }}"
+                        href="{{ route('stok.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">receipt_long</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Stok</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('admin/transaksi*') ? 'bg-gradient-primary' : '' }} "
+                        href="{{ route('transaksi.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Transaksi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('admin/laporan*') ? 'bg-gradient-primary' : '' }} "
+                        href="{{ route('admin_laporan_index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Laporan Pejualan</span>
+                    </a>
+                </li>
+            @else
+            @endif
 
 
         </ul>
