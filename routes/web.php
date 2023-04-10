@@ -56,7 +56,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/app', function () {
         return view('pages.dashboard');
-    });
+    })->name('pages_dashboard');
     Route::get('/sales', [PenjualanController::class, 'index'])->name('penjualan_index');
     Route::get('/sales/buat_transaksi', [PenjualanController::class, 'buatTransaksi'])->name('penjualan_buat');
     Route::post('/sales/simpan', [PenjualanController::class, 'simpan']);
