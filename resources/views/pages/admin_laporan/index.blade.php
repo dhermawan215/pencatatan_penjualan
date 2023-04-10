@@ -88,7 +88,8 @@
                             </div>
                             <div class="tab-pane fade" id="nav-other" role="tabpanel" aria-labelledby="nav-contact-tab">
                                 <div class="m-2">
-                                    <form action="javascript:;" class="p-1" id="formCariHarian" method="post">
+                                    <form action="javascript:;" class="p-1" id="formCariBulanan" method="post">
+                                        @csrf
                                         <label for="harian">Bulan Pencarian</label>
                                         <div class="input-group">
                                             <select name="pencarian_bulan" id="pencarianBulan"

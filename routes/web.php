@@ -49,6 +49,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('/laporan/laporan_transaksi', [AdminLaporan::class, 'laporanByTrsc'])->name('laporan_trsc');
     Route::post('/laporan/laporan_harian', [AdminLaporan::class, 'laporanHarian'])->name('laporan_harian');
     Route::post('/laporan/laporan_mingguan', [AdminLaporan::class, 'laporanMingguan'])->name('laporan_mingguan');
+    Route::post('/laporan/laporan_bulanan', [AdminLaporan::class, 'laporanBulanan'])->name('laporan_bulanan');
     Route::get('/laporan_download/{file}', [AdminLaporan::class, 'download']);
 });
 

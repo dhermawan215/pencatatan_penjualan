@@ -84,7 +84,6 @@ var Index = (function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    // console.log(response);
                     window.location.href =
                         HomeUrl + "/admin/laporan_download/" + response;
                 },
@@ -110,7 +109,6 @@ var Index = (function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    // console.log(response);
                     window.location.href =
                         HomeUrl + "/admin/laporan_download/" + response;
                 },
@@ -128,6 +126,29 @@ var Index = (function () {
             allowClear: true,
             placeholder: "pilih bulan",
             width: "resolve",
+        });
+
+        $("#formCariBulanan").submit(function (e) {
+            e.preventDefault();
+            const form = $(this);
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                url: HomeUrl + "/admin/laporan/laporan_bulanan",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    window.location.href =
+                        HomeUrl + "/admin/laporan_download/" + response;
+                },
+                error: function (response) {
+                    $.each(response.responseJSON, function (key, value) {
+                        toastr.error(value);
+                    });
+                },
+            });
         });
     };
 

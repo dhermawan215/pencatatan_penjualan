@@ -58,7 +58,6 @@ class AdminLaporan extends Controller
 
         $pdf2 = public_path('pdf/' . $fileName);
         return response()->json($fileName);
-        // return response()->download($pdf2)->deleteFileAfterSend(true);
     }
 
     public function laporanHarian(Request $request)
@@ -77,7 +76,7 @@ class AdminLaporan extends Controller
                 $data['relasi'] = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $value->id)->get();
                 $arr[] = $data;
             }
-            // return \view('pages.admin_laporan.harian', ['data' => $arr]);
+
             $pdf = PDF::loadView('pages.admin_laporan.harian', ['data' => $arr])->setOptions(['defaultFont' => 'sans-serif']);
             $path = public_path('pdf/');
             $rndm = Str::random(5);
@@ -86,13 +85,10 @@ class AdminLaporan extends Controller
 
             $pdf2 = public_path('pdf/' . $fileName);
             return response()->json($fileName);
-            // return response()->download($pdf2, $fileName, $headers)->deleteFileAfterSend(true);
         } else {
             $data['response'] = "data kosong";
             return \response()->json($data, 404);
         }
-        // \dd($transaksi);
-
     }
 
     public function laporanMingguan(Request $request)
@@ -103,9 +99,9 @@ class AdminLaporan extends Controller
         $transaksi = Transaksi::whereDate('tanggal', '>=', $awal)
             ->whereDate('tanggal', '<=', $akhir)->get();
         $data = [];
-        $week = [];
-        $week['awal'] = Carbon::createFromFormat('Y-m-d', $awal)->format('d-m-Y');
-        $week['akhir'] = Carbon::createFromFormat('Y-m-d', $akhir)->format('d-m-Y');
+
+        $start = Carbon::createFromFormat('Y-m-d', $awal)->format('d-m-Y');
+        $end = Carbon::createFromFormat('Y-m-d', $akhir)->format('d-m-Y');
         if (!$transaksi->isEmpty()) {
 
             foreach ($transaksi as $key => $value) {
@@ -116,11 +112,45 @@ class AdminLaporan extends Controller
                 $data['relasi'] = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $value->id)->get();
                 $arr[] = $data;
             }
-            // return \view('pages.admin_laporan.mingguan', ['data' => $arr, 'week' => $week]);
-            $pdf = PDF::loadView('pages.admin_laporan.mingguan', ['data' => $arr, 'week' => $week])->setOptions(['defaultFont' => 'sans-serif']);
+
+            $pdf = PDF::loadView('pages.admin_laporan.mingguan', ['data' => $arr, 'start' => $start, 'end' => $end])->setOptions(['defaultFont' => 'sans-serif']);
             $path = public_path('pdf/');
             $rndm = Str::random(5);
-            $fileName = "Mingguan_Rentang_" . $week['awal'] . '_sampai_' . $week['akhir'] . '_' . time() . '_' . $rndm . '.' . 'pdf';
+            $fileName = "Mingguan_Rentang_" . $start . '_sampai_' . $end . '_' . time() . '_' . $rndm . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+
+            $pdf2 = public_path('pdf/' . $fileName);
+            return response()->json($fileName);
+        } else {
+            $data['response'] = "data kosong";
+            return \response()->json($data, 404);
+        }
+    }
+
+    public function laporanBulanan(Request $request)
+    {
+        $month = $request->pencarian_bulan;
+        $year = $request->pencarian_tahun;
+
+        $transaksi = Transaksi::whereYear('tanggal', $year)
+            ->whereMonth('tanggal', $month)->get();
+        $data = [];
+
+        if (!$transaksi->isEmpty()) {
+
+            foreach ($transaksi as $key => $value) {
+                $data['no_trsc'] = $value->no_transaksi;
+                $data['tanggal'] = $value->tanggal;
+                $data['total'] = $value->total;
+                $data['tgl_header'] = Carbon::createFromFormat('Y-m-d', $value->tanggal)->format('d-m-Y');
+                $data['relasi'] = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $value->id)->get();
+                $arr[] = $data;
+            }
+
+            $pdf = PDF::loadView('pages.admin_laporan.bulanan', ['data' => $arr, 'month' => $month, 'year' => $year])->setOptions(['defaultFont' => 'sans-serif']);
+            $path = public_path('pdf/');
+            $rndm = Str::random(5);
+            $fileName = "Laporan_Bulan_" . $month . '_Tahun_' . $year . '_' .  time() . '_' . $rndm . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);
 
             $pdf2 = public_path('pdf/' . $fileName);

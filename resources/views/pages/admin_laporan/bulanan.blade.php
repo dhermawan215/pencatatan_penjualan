@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <h2>Laporan Transaksi Mingguan Rentang: {{ $start . ' sampai ' . $end }}</h2>
+    <h2>Laporan Transaksi Bulan: {{ $month . ' Tahun ' . $year }}</h2>
 
     @foreach ($data as $key)
         <div style="border-style: solid; margin-bottom: 15px;">
