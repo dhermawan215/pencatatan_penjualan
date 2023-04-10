@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminLaporan;
+use App\Http\Controllers\AdminTransaksi;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
@@ -40,12 +42,21 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('/barang/list_barang', [BarangController::class, 'getDataBarang']);
     Route::resource('/stok', StokAwalController::class);
     Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
+    Route::resource('/transaksi', AdminTransaksi::class);
+    Route::post('/transaksi/data_transaksi', [AdminTransaksi::class, 'transactionData']);
+    Route::get('/laporan', [AdminLaporan::class, 'index'])->name('admin_laporan_index');
+    Route::post('/laporan/data_transaksi', [AdminLaporan::class, 'dataTransaksi']);
+    Route::post('/laporan/laporan_transaksi', [AdminLaporan::class, 'laporanByTrsc'])->name('laporan_trsc');
+    Route::post('/laporan/laporan_harian', [AdminLaporan::class, 'laporanHarian'])->name('laporan_harian');
+    Route::post('/laporan/laporan_mingguan', [AdminLaporan::class, 'laporanMingguan'])->name('laporan_mingguan');
+    Route::post('/laporan/laporan_bulanan', [AdminLaporan::class, 'laporanBulanan'])->name('laporan_bulanan');
+    Route::get('/laporan_download/{file}', [AdminLaporan::class, 'download']);
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/app', function () {
         return view('pages.dashboard');
-    });
+    })->name('pages_dashboard');
     Route::get('/sales', [PenjualanController::class, 'index'])->name('penjualan_index');
     Route::get('/sales/buat_transaksi', [PenjualanController::class, 'buatTransaksi'])->name('penjualan_buat');
     Route::post('/sales/simpan', [PenjualanController::class, 'simpan']);
