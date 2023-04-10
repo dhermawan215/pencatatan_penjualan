@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <h2>Laporan Transaksi Harian {{ $data[0]['tgl_header'] }}</h2>
+    <h2>Laporan Transaksi Mingguan Rentang: {{ $week['awal'] . ' sampai ' . $week['akhir'] }}</h2>
 
     @foreach ($data as $key)
         <div style="border-style: solid; margin-bottom: 15px;">

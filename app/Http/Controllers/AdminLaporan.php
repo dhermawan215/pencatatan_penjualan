@@ -16,6 +16,12 @@ class AdminLaporan extends Controller
         return \view('pages.admin_laporan.index');
     }
 
+    public function download($file)
+    {
+        $file_path = public_path('pdf/' . $file);
+        return response()->download($file_path)->deleteFileAfterSend(true);
+    }
+
     public function dataTransaksi(Request $request)
     {
         $requestall = $request->all();
@@ -47,11 +53,12 @@ class AdminLaporan extends Controller
         $pdf = PDF::loadView('pages.admin_laporan.laporan_tr_pdf', ['trsc' => $transaksi])->setOptions(['defaultFont' => 'sans-serif']);
         $path = public_path('pdf/');
         $rndm = Str::random(5);
-        $fileName =  time() . '-' . $rndm . '.' . 'pdf';
+        $fileName = $transaksi[0]->transaksi->no_transaksi . '_' . time() . '_' . $rndm . '.' . 'pdf';
         $pdf->save($path . '/' . $fileName);
 
         $pdf2 = public_path('pdf/' . $fileName);
-        return response()->download($pdf2)->deleteFileAfterSend(true);
+        return response()->json($fileName);
+        // return response()->download($pdf2)->deleteFileAfterSend(true);
     }
 
     public function laporanHarian(Request $request)
@@ -74,11 +81,12 @@ class AdminLaporan extends Controller
             $pdf = PDF::loadView('pages.admin_laporan.harian', ['data' => $arr])->setOptions(['defaultFont' => 'sans-serif']);
             $path = public_path('pdf/');
             $rndm = Str::random(5);
-            $fileName = "Harian" . '-' . time() . '-' . $rndm . '.' . 'pdf';
+            $fileName = "Harian" . '_' . time() . '_' . $rndm . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);
 
             $pdf2 = public_path('pdf/' . $fileName);
-            return response()->download($pdf2)->deleteFileAfterSend(true);
+            return response()->json($fileName);
+            // return response()->download($pdf2, $fileName, $headers)->deleteFileAfterSend(true);
         } else {
             $data['response'] = "data kosong";
             return \response()->json($data, 404);
@@ -95,6 +103,9 @@ class AdminLaporan extends Controller
         $transaksi = Transaksi::whereDate('tanggal', '>=', $awal)
             ->whereDate('tanggal', '<=', $akhir)->get();
         $data = [];
+        $week = [];
+        $week['awal'] = Carbon::createFromFormat('Y-m-d', $awal)->format('d-m-Y');
+        $week['akhir'] = Carbon::createFromFormat('Y-m-d', $akhir)->format('d-m-Y');
         if (!$transaksi->isEmpty()) {
 
             foreach ($transaksi as $key => $value) {
@@ -105,15 +116,15 @@ class AdminLaporan extends Controller
                 $data['relasi'] = TransaksiDetail::with('TransaksiBarang')->where('transaksi_id', $value->id)->get();
                 $arr[] = $data;
             }
-            // return \view('pages.admin_laporan.harian', ['data' => $arr]);
-            $pdf = PDF::loadView('pages.admin_laporan.harian', ['data' => $arr])->setOptions(['defaultFont' => 'sans-serif']);
+            // return \view('pages.admin_laporan.mingguan', ['data' => $arr, 'week' => $week]);
+            $pdf = PDF::loadView('pages.admin_laporan.mingguan', ['data' => $arr, 'week' => $week])->setOptions(['defaultFont' => 'sans-serif']);
             $path = public_path('pdf/');
             $rndm = Str::random(5);
-            $fileName = "Harian" . '-' . time() . '-' . $rndm . '.' . 'pdf';
+            $fileName = "Mingguan_Rentang_" . $week['awal'] . '_sampai_' . $week['akhir'] . '_' . time() . '_' . $rndm . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);
 
             $pdf2 = public_path('pdf/' . $fileName);
-            return response()->download($pdf2)->deleteFileAfterSend(true);
+            return response()->json($fileName);
         } else {
             $data['response'] = "data kosong";
             return \response()->json($data, 404);
