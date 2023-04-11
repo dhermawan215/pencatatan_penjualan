@@ -6,6 +6,16 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StokAwalController;
+
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +37,7 @@ Route::get('/dashboard', function () {
     return redirect()->route('dashboard');
 })->middleware(['auth', 'verified']);
 
-Route::prefix('/account')->middleware(['auth'])
+Route::prefix('/account')->middleware(['auth', 'isadmin'])
     ->group(function () {
         Route::get('/', function () {
             return view('dashboard');
@@ -53,7 +63,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/laporan_download/{file}', [AdminLaporan::class, 'download']);
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'isadmin'])->group(function () {
     Route::get('/app', function () {
         return view('pages.dashboard');
     })->name('pages_dashboard');
@@ -71,4 +81,51 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sales/success/{sales}', [PenjualanController::class, 'success']);
     Route::post('/sales/simpan_tr_total', [PenjualanController::class, 'submitTotal']);
 });
-require __DIR__ . '/auth.php';
+
+//modif auth route breeze
+//breeze route di keluarkan dari vendor/laravel/breeze/routes/auth.php
+Route::middleware('guest')->group(function () {
+
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])
+        ->name('login');
+
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+    Route::post('reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('verify-email', EmailVerificationPromptController::class)
+        ->name('verification.notice');
+
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
+        ->name('password.confirm');
+
+    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+});
+
+//feature breeze di off untuk custom auth
+// require __DIR__ . '/auth.php';
