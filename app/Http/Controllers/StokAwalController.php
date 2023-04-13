@@ -216,7 +216,7 @@ class StokAwalController extends Controller
                 $data['cbox'] = '<div class="d-flex"><button type="button" class="btndel btn btn-sm btn-danger" id="btndeletes" data-id="' . $value->id . '">Delete</button><a href="' . route('stok.edit', base64_encode($value->id)) . '" class="text-primary me-2 ms-2" title="Edit Data"><i class="fas fa-edit"></i></a ></div>';
                 $data['rnum'] = $i;
                 // $data['aksi'] = 'p';
-                $data['barang'] = $value->StokBarang->nama_barang;
+                $data['barang'] = $value->StokBarang->kode_barang . ' | ' . $value->StokBarang->nama_barang;
                 $data['qty'] = $value->qty_stok;
                 $data['tgl'] = $value->tgl_input;
 

@@ -59,6 +59,9 @@
                                                 {{ $value->kode_barang }} - {{ $value->nama_barang }}</option>
                                         @endforeach
                                     </select>
+                                    <div class="d-flex">
+                                        <p>Sisa Stok:</p><span id="stokTotal" class="fw-bold"></span>
+                                    </div>
                                 </div>
                                 <div class="col-lg-2 ms-2">
                                     <label class="form-label text-primary fw-bold" for="">Harga Satuan</label>

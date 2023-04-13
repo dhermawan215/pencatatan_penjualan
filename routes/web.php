@@ -47,7 +47,7 @@ Route::prefix('/account')->middleware(['auth', 'isadmin'])
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::resource('barang', BarangController::class);
     Route::post('/barang/list_barang', [BarangController::class, 'getDataBarang']);
     Route::resource('/stok', StokAwalController::class);
@@ -63,7 +63,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/laporan_download/{file}', [AdminLaporan::class, 'download']);
 });
 
-Route::middleware(['auth', 'isadmin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/app', function () {
         return view('pages.dashboard');
     })->name('pages_dashboard');

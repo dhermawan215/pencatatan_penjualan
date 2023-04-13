@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\StokAwal;
 use Carbon\Carbon;
 use App\Models\Transaksi;
 use App\Models\TransaksiDetail;
@@ -248,8 +249,15 @@ class PenjualanController extends Controller
         $id = $requestall['idvalue'];
 
         $barang = Barang::findOrFail($id);
+        $stokAwal = StokAwal::where('barang_id', $barang->id)->sum('qty_stok');
+        $stokTransaksi = TransaksiDetail::where('barang_id', $barang->id)->sum('qty');
+        $stokTotal = $stokAwal - $stokTransaksi;
 
-        return \response()->json($barang, 200);
+        $response = [];
+        $response['data'] = $barang;
+        $response['sisa_stok'] = $stokTotal;
+
+        return \response()->json($response, 200);
     }
 
     public function simpanTrDetail(Request $request)
