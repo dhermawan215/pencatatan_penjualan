@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminLaporan;
 use App\Http\Controllers\AdminTransaksi;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
@@ -50,8 +51,7 @@ Route::prefix('/account')->middleware(['auth', 'isadmin'])
 Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::resource('barang', BarangController::class);
     Route::post('/barang/list_barang', [BarangController::class, 'getDataBarang']);
-    Route::resource('/stok', StokAwalController::class);
-    Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
+
     Route::resource('/transaksi', AdminTransaksi::class);
     Route::post('/transaksi/data_transaksi', [AdminTransaksi::class, 'transactionData']);
     Route::get('/laporan', [AdminLaporan::class, 'index'])->name('admin_laporan_index');
@@ -61,6 +61,11 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::post('/laporan/laporan_mingguan', [AdminLaporan::class, 'laporanMingguan'])->name('laporan_mingguan');
     Route::post('/laporan/laporan_bulanan', [AdminLaporan::class, 'laporanBulanan'])->name('laporan_bulanan');
     Route::get('/laporan_download/{file}', [AdminLaporan::class, 'download']);
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin_users');
+    Route::post('/users/get_data_users', [AdminUserController::class, 'userData']);
+    Route::post('/users/register', [AdminUserController::class, 'register']);
+    Route::get('/users/update_password/{user}', [AdminUserController::class, 'updatePassword'])->name('admin_user_update_pwd');
+    Route::put('/users/update_password}', [AdminUserController::class, 'update']);
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -80,6 +85,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/sales/delete_item_tr/{sales}', [PenjualanController::class, 'deleteItemTr']);
     Route::get('/sales/success/{sales}', [PenjualanController::class, 'success']);
     Route::post('/sales/simpan_tr_total', [PenjualanController::class, 'submitTotal']);
+
+    Route::resource('/stok', StokAwalController::class);
+    Route::post('/stok/all', [StokAwalController::class, 'getDataStok']);
 });
 
 //modif auth route breeze

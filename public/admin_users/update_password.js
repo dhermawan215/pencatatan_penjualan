@@ -1,28 +1,29 @@
 var Index = (function () {
-    var editSubmit = function () {
-        $("#formEditStok").submit(function (e) {
+    const csrf_token = $('meta[name="_token"]').attr("content");
+
+    var handleFormUpdate = function () {
+        $("#formTambahUser").submit(function (e) {
             e.preventDefault();
 
             const form = $(this);
             let formData = new FormData(form[0]);
 
-            let id = $("#idValue").val();
-
             $.ajax({
                 type: "POST",
-                url: HomeUrl + "/stok/" + id,
+                url: HomeUrl + "/admin/users/register",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    console.info(response);
-                    toastr.success("Data Berhasil Diperbaharui", "Success");
-                    setTimeout(() => {
-                        window.location.href = HomeUrl + "/stok";
-                    }, 5000);
+                    // console.log(response);
+                    // let obj = JSON.parse(response);
+                    toastr.success("Data Berhasil Disimpan", "Success");
+                    setTimeout(function () {
+                        $("#user_modal").modal("toggle");
+                        table.ajax.reload(null, false);
+                    }, 3000);
                 },
                 error: function (response) {
-                    console.info(response);
                     $.each(response.responseJSON, function (key, value) {
                         toastr.error(value);
                     });
@@ -30,9 +31,10 @@ var Index = (function () {
             });
         });
     };
+
     return {
         init: function () {
-            editSubmit();
+            handleFormUpdate();
         },
     };
 })();

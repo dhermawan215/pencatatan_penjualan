@@ -1,4 +1,4 @@
-var Index = (function (param) {
+var Index = (function () {
     const csrf_token = $('meta[name="_token"]').attr("content");
     var table;
 
@@ -29,7 +29,7 @@ var Index = (function (param) {
             processing: true,
             serverSide: true,
             ajax: {
-                url: HomeUrl + "/admin/stok/all",
+                url: HomeUrl + "/stok/all",
                 type: "POST",
                 data: {
                     _token: csrf_token,
@@ -65,7 +65,7 @@ var Index = (function (param) {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "DELETE",
-                        url: HomeUrl + "/admin/stok/" + id,
+                        url: HomeUrl + "/stok/" + id,
                         data: {
                             _token: csrf_token,
                             // ids: id,
