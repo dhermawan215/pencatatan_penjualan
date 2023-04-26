@@ -65,7 +65,8 @@ Route::prefix('admin')->middleware(['auth', 'isadmin'])->group(function () {
     Route::post('/users/get_data_users', [AdminUserController::class, 'userData']);
     Route::post('/users/register', [AdminUserController::class, 'register']);
     Route::get('/users/update_password/{user}', [AdminUserController::class, 'updatePassword'])->name('admin_user_update_pwd');
-    Route::put('/users/update_password}', [AdminUserController::class, 'update']);
+    Route::put('/users/update_password/{user}', [AdminUserController::class, 'update']);
+    Route::delete('/users/{user}', [AdminUserController::class, 'delete']);
 });
 
 Route::middleware(['auth'])->group(function () {

@@ -130,5 +130,40 @@ class AdminUserController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+        $requestall = $request->all();
+        $validator = Validator::make($request->all(), [
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json($validator->errors()->all(), 403);
+        }
+
+        unset($requestall['method']);
+        unset($requestall['_token']);
+
+        $update = $user->update([
+            'password' => Hash::make($requestall['password'])
+        ]);
+
+        if ($update) {
+            return \response()->json(["success" => \true], 200);
+        } else {
+            return \response()->json(["success" => \false], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        $user = User::findOrFail($id);
+
+        $delete = $user->delete();
+
+        if ($delete) {
+            return \response()->json(["success" => \true], 200);
+        } else {
+            return \response()->json(["success" => \false], 500);
+        }
     }
 }

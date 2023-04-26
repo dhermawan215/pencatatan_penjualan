@@ -80,10 +80,52 @@ var Index = (function () {
         });
     };
 
+    var handleDelete = function () {
+        $(document).on("click", ".btndel", function () {
+            let id = $(this).data("id");
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: HomeUrl + "/admin/users/" + id,
+                        data: {
+                            _token: csrf_token,
+                            // ids: id,
+                        },
+                        success: function (response) {
+                            Swal.fire(
+                                "Deleted!",
+                                "Your file has been deleted.",
+                                "success"
+                            );
+                            table.ajax.reload();
+                        },
+                        error: function (response) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Internal Server Error",
+                            });
+                        },
+                    });
+                }
+            });
+        });
+    };
+
     return {
         init: function () {
             handleDataUser();
             handleFormAddUser();
+            handleDelete();
         },
     };
 })();
