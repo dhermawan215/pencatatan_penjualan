@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/stok*') ? 'bg-gradient-primary' : '' }}" href="{{ route('stok.index') }}">
+                <a class="nav-link text-white {{ request()->is('stok*') ? 'bg-gradient-primary' : '' }}" href="{{ route('stok.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
@@ -82,7 +82,7 @@
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
-            <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">&copy; 2023, All right
+            <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">&copy; 2023, All rights
                 reserved</a>
         </div>
     </div>
