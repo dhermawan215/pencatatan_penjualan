@@ -137,5 +137,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('admin_laporan/view.js?n=' . time()) }}"></script>
+    <script src="{{ asset('admin_laporan/view.min.js?n=' . time()) }}"></script>
 @endpush
