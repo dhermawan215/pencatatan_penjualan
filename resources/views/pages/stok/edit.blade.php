@@ -54,5 +54,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('stok_awal/edit.js') }}"></script>
+    <script src="{{ asset('stok_awal/edit.min.js?q=') . time() }}"></script>
 @endpush
