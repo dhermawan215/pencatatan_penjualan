@@ -56,7 +56,8 @@
                                         <option>Pilih Barang</option>
                                         @foreach ($barang as $value)
                                             <option value="{{ $value->id }}">
-                                                {{ $value->kode_barang }} - {{ $value->nama_barang }}</option>
+                                                {{ $value->kode_barang }} - {{ $value->nama_barang }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <div class="d-flex">
@@ -147,5 +148,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('penjualan_js/transaksi_detail.js') }}"></script>
+    <script src="{{ asset('penjualan_js/transaksi_detail.min.js?q=') . time() }}"></script>
 @endpush

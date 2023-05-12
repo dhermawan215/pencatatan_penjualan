@@ -47,5 +47,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('penjualan_js/buat.js') }}"></script>
+    <script src="{{ asset('penjualan_js/buat.min.js?q=') . time() }}"></script>
 @endpush
