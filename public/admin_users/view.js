@@ -2,8 +2,8 @@ var Index = (function () {
     const csrf_token = $('meta[name="_token"]').attr("content");
     var table;
 
-    var handleDataStok = function () {
-        table = $("#tableStokBarang").DataTable({
+    var handleDataUser = function () {
+        table = $("#adminUsers").DataTable({
             responsive: false,
             autoWidth: false,
             pageLength: 5,
@@ -29,7 +29,7 @@ var Index = (function () {
             processing: true,
             serverSide: true,
             ajax: {
-                url: HomeUrl + "/stok/all",
+                url: HomeUrl + "/admin/users/get_data_users",
                 type: "POST",
                 data: {
                     _token: csrf_token,
@@ -38,15 +38,45 @@ var Index = (function () {
             columns: [
                 { data: "cbox", orderable: false },
                 { data: "rnum", orderable: false },
-                { data: "barang" },
-                { data: "qty" },
-                { data: "tgl" },
+                { data: "name" },
+                { data: "email" },
             ],
         });
-        $(".tfoot-seacrh").on("change", function (e) {
+        $(".tfoot-seacrh").on("change", function () {
             var data_index = $(this).attr("data-index");
             table.columns(data_index).search($(this).val()).draw();
             table.ajax.reload(null, false);
+        });
+    };
+
+    var handleFormAddUser = function () {
+        $("#formTambahUser").submit(function (e) {
+            e.preventDefault();
+
+            const form = $(this);
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                url: HomeUrl + "/admin/users/register",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // console.log(response);
+                    // let obj = JSON.parse(response);
+                    toastr.success("Data Berhasil Disimpan", "Success");
+                    setTimeout(function () {
+                        $("#user_modal").modal("toggle");
+                        table.ajax.reload(null, false);
+                    }, 3000);
+                },
+                error: function (response) {
+                    $.each(response.responseJSON, function (key, value) {
+                        toastr.error(value);
+                    });
+                },
+            });
         });
     };
 
@@ -65,7 +95,7 @@ var Index = (function () {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "DELETE",
-                        url: HomeUrl + "/stok/" + id,
+                        url: HomeUrl + "/admin/users/" + id,
                         data: {
                             _token: csrf_token,
                             // ids: id,
@@ -90,9 +120,11 @@ var Index = (function () {
             });
         });
     };
+
     return {
         init: function () {
-            handleDataStok();
+            handleDataUser();
+            handleFormAddUser();
             handleDelete();
         },
     };

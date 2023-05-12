@@ -116,5 +116,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('data_barang/data-barang.js') }}"></script>
+    <script src="{{ asset('data_barang/data-barang.min.js') }}"></script>
 @endpush

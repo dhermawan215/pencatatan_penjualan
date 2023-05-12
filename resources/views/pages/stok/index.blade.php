@@ -77,5 +77,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('stok_awal/view.js') }}"></script>
+    <script src="{{ asset('stok_awal/view.min.js?q=') . time() }}"></script>
 @endpush

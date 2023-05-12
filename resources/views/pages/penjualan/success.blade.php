@@ -86,5 +86,5 @@
 
 @push('front_scripts')
     <script src="{{ asset('plugins/jquery.PrintArea.js') }}"></script>
-    <script src="{{ asset('penjualan_js/success.js') }}"></script>
+    <script src="{{ asset('penjualan_js/success.min.js?q=') . time() }}"></script>
 @endpush

@@ -72,5 +72,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('penjualan_js/view_transaksi.js') }}"></script>
+    <script src="{{ asset('penjualan_js/view_transaksi.min.js?q=') . time() }}"></script>
 @endpush

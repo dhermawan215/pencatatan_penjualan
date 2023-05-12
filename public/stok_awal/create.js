@@ -10,7 +10,7 @@ var Index = (function () {
 
             $.ajax({
                 type: "Post",
-                url: HomeUrl + "/admin/stok",
+                url: HomeUrl + "/stok",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -18,7 +18,7 @@ var Index = (function () {
                     let obj = JSON.parse(response);
                     toastr.success("Data Berhasil Disimpan", "Success");
                     setTimeout(() => {
-                        window.location.href = HomeUrl + "/admin/stok";
+                        window.location.href = HomeUrl + "/stok";
                     }, 5000);
                 },
                 error: function (response) {

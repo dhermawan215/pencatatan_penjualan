@@ -71,5 +71,5 @@
 @endsection
 
 @push('front_scripts')
-    <script src="{{ asset('admin_transaksi/view.js?n=' . time()) }}"></script>
+    <script src="{{ asset('admin_transaksi/view.min.js?n=' . time()) }}"></script>
 @endpush

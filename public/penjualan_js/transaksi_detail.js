@@ -64,8 +64,10 @@ var Index = (function () {
                     idvalue: idValue,
                 },
                 success: function (response) {
-                    const harga = response.harga;
+                    const dataResponse = response.data;
+                    const harga = dataResponse.harga;
                     $("#hargaSatuan").val(harga);
+                    $("#stokTotal").html(response.sisa_stok);
                     handleSubTotal(harga);
                 },
                 error: function (response) {},
